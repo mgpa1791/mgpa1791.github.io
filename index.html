@@ -100,14 +100,6 @@ tbody tr:hover td { background:#eaf2fa; }
 .activity-report td:first-child, .activity-report th:first-child { position:static; background:inherit; }
 .empty { color:var(--muted); font-style:italic; }
 .footer { text-align:center; color:var(--muted); font-size:.84rem; margin-top:16px; }
-.mobile-card-list { display:none; }
-.mobile-record { border:1px solid var(--line); border-radius:10px; background:#fff; padding:12px; margin-bottom:10px; }
-.mobile-record .record-title { font-weight:800; color:var(--navy); margin-bottom:8px; }
-.mobile-field { display:grid; grid-template-columns:42% 58%; gap:8px; padding:7px 0; border-top:1px solid #edf1f5; }
-.mobile-field:first-of-type { border-top:0; }
-.mobile-label { color:var(--muted); font-size:.86rem; }
-.mobile-value { text-align:right; overflow-wrap:anywhere; }
-.mobile-value.num { text-align:right; }
 @media (max-width:1100px) {
   .toolbar { grid-template-columns:1fr 1fr 1fr; }
   .count { grid-column:1 / -1; }
@@ -117,23 +109,21 @@ tbody tr:hover td { background:#eaf2fa; }
   .toolbar { display:flex; flex-direction:column; align-items:stretch; gap:9px; }
   input, select, button { width:100%; min-height:46px; font-size:16px; }
   .count { text-align:center; }
-  .table-wrap { display:none; }
-  .mobile-card-list { display:block; }
+  .table-wrap { display:block; max-height:70vh; overflow:auto; -webkit-overflow-scrolling:touch; }
   .pagination { justify-content:center; }
   .pagination button { width:auto; min-width:110px; }
   .activity-meta { display:grid; grid-template-columns:1fr; gap:5px; }
   .activity-report .table-wrap { display:block; max-height:none; overflow-x:auto; }
+  table { font-size:.82rem; }
+  th, td { padding:8px 9px; }
 }
-@media (min-width:761px) {
-  .mobile-card-list { display:none !important; }
-}
+
 @media print {
   body { background:#fff; }
   header { background:#fff; color:#000; border-bottom:2px solid var(--navy); }
   .toolbar, .pagination { display:none !important; }
   .card, .activity-report { box-shadow:none; border:0; padding:0; }
   .table-wrap { display:block; max-height:none; overflow:visible; }
-  .mobile-card-list { display:none !important; }
   th, td { white-space:normal; font-size:10px; }
 }
 </style>
@@ -167,7 +157,6 @@ tbody tr:hover td { background:#eaf2fa; }
       <span class="count" id="rowCount"></span>
     </div>
     <div class="table-wrap"><table id="reportTable"></table></div>
-    <div id="mobileCards" class="mobile-card-list"></div>
     <div class="pagination">
       <button id="prev" type="button">Previous</button>
       <span id="pageInfo"></span>
@@ -234,14 +223,6 @@ function renderActivityReport(){
       </div>`:`<div class="empty">No activity hours are recorded for this Tag#.</div>`}
   `;
 }
-function renderMobileCards(headers, rows){
-  const target=document.getElementById("mobileCards");
-  target.innerHTML=rows.map(r=>{
-    const title=`Tag# ${esc(r.tag)}`;
-    const fields=headers.map(h=>`<div class="mobile-field"><div class="mobile-label">${esc(DATA.labels[h])}</div><div class="mobile-value ${DATA.numericHeaders.includes(h)?"num":""}">${DATA.numericHeaders.includes(h)?fmt(r[h]):esc(r[h])}</div></div>`).join("");
-    return `<article class="mobile-record"><div class="record-title">${title}</div>${fields}</article>`;
-  }).join("");
-}
 function render(){
   const headers=visibleHeaders();
   if(!headers.includes(sortKey)){ sortKey="tag"; sortDir=1; }
@@ -254,7 +235,6 @@ function render(){
     `<thead><tr>${headers.map(h=>`<th data-key="${h}">${esc(DATA.labels[h])}</th>`).join("")}</tr></thead>`+
     `<tbody>${shown.map(r=>`<tr>${headers.map(h=>`<td class="${DATA.numericHeaders.includes(h)?"num":""}">${DATA.numericHeaders.includes(h)?fmt(r[h]):esc(r[h])}</td>`).join("")}</tr>`).join("")}</tbody>`;
   document.querySelectorAll("th[data-key]").forEach(th=>th.addEventListener("click",()=>{ const k=th.dataset.key; sortDir=sortKey===k?-sortDir:1; sortKey=k; render(); }));
-  renderMobileCards(headers, shown);
   toggleButton.textContent=fullReport?"Summary Report":"Full Report";
   renderActivityReport();
   document.getElementById("rowCount").textContent=`${rows.length} matching rows`;
