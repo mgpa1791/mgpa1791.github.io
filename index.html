@@ -56,11 +56,15 @@ select.pill{appearance:none;-webkit-appearance:none;padding-right:28px;backgroun
 
 /* Table */
 
-.table-card.summary{width:fit-content;max-width:100%}
-.table-card.summary td.tag{min-width:140px}
+/* Dynamic column widths: summary splits the full width by proportion; full view gives each column a fluid minimum and lets the table fill */
+.table-card.summary thead tr.cols th:nth-child(1){width:18%}
+.table-card.summary thead tr.cols th:nth-child(2){width:22%}
+.table-card.summary thead tr.cols th:nth-child(3){width:60%}
+.table-card:not(.summary) thead tr.cols th:nth-child(2){min-width:clamp(110px,10vw,170px)}
+.table-card:not(.summary) thead tr.cols th:nth-child(3){min-width:clamp(150px,14vw,260px)}
 .table-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:auto;max-height:calc(100vh - 140px)}
 table{border-collapse:separate;border-spacing:0;font-size:13px;white-space:nowrap;width:100%}
-thead th{position:sticky;top:0;z-index:10;background:var(--surface-alt);font-family:'Oswald',sans-serif;font-weight:500;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;cursor:pointer;user-select:none;vertical-align:bottom}
+thead th{position:sticky;top:0;z-index:10;background:var(--surface-alt);font-family:'Oswald',sans-serif;font-weight:500;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--line);padding:9px clamp(8px,1.1vw,16px);text-align:left;cursor:pointer;user-select:none;vertical-align:bottom}
 thead th.num{text-align:right}
 thead th:hover{color:var(--ink)}
 thead th.sorted{color:var(--accent)}
@@ -71,12 +75,12 @@ thead tr.cols th{top:var(--gh,0px)}
 .gh-range{background:var(--range-bg)!important;color:rgba(255,255,255,.9)!important;border-left:1px solid rgba(255,255,255,.15)}
 .gh-other{background:var(--brass)!important;color:rgba(255,255,255,.95)!important;border-left:1px solid rgba(255,255,255,.15)}
 .gh-grounds{background:var(--olive)!important;color:rgba(255,255,255,.9)!important;border-left:1px solid rgba(255,255,255,.15)}
-th.act{min-width:86px;line-height:1.25;border-top:3px solid var(--range-bg)}
+th.act{min-width:clamp(96px,7.5vw,150px);white-space:normal;vertical-align:bottom;line-height:1.25;border-top:3px solid var(--range-bg)}
 th.act.grounds{border-top-color:var(--olive)}
 th.act.other{border-top-color:var(--brass)}
 th.act .d{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0;color:var(--ink-soft);text-transform:none}
 th.act.sorted .d{color:var(--accent)}
-tbody td{padding:8px 12px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+tbody td{padding:8px clamp(8px,1.1vw,16px);border-bottom:1px solid var(--line-soft);vertical-align:middle}
 tbody tr.row{cursor:pointer}
 tbody tr.row:hover td{background:var(--surface-alt)}
 tbody tr.row.open td{background:var(--surface-alt)}
@@ -84,7 +88,7 @@ thead th:first-child,tbody td:first-child{position:sticky;left:0;box-shadow:2px 
 thead th:first-child{z-index:20}
 thead tr.cols th:first-child{background:var(--header-bg);color:var(--accent-soft)}
 tbody td:first-child{z-index:5;background:var(--surface)}
-td.tag{font-family:'JetBrains Mono',monospace;font-weight:600;min-width:96px}
+td.tag{font-family:'JetBrains Mono',monospace;font-weight:600;min-width:clamp(80px,8vw,130px)}
 td.tag .chev{display:inline-block;width:12px;color:var(--ink-soft);font-size:10px;transition:transform .15s}
 tr.open td.tag .chev{transform:rotate(90deg);color:var(--accent)}
 td.tag.bad{color:var(--danger)}
@@ -95,8 +99,8 @@ td.num{text-align:right;font-family:'JetBrains Mono',monospace}
 .badge.l{background:var(--olive-wash);color:var(--olive)}
 .badge.u{background:#EDEAE0;color:var(--ink-soft)}
 .badge.x{background:var(--danger-wash);color:var(--danger)}
-.mini-gauge{display:flex;align-items:center;gap:8px}
-.mini-track{width:64px;height:6px;background:var(--line-soft);border-radius:3px;overflow:hidden;flex:none}
+.mini-gauge{display:flex;align-items:center;gap:8px;width:100%}
+.mini-track{flex:1 1 auto;min-width:40px;max-width:640px;height:6px;background:var(--line-soft);border-radius:3px;overflow:hidden}
 .mini-fill{height:100%;background:var(--accent);border-radius:3px}
 .mini-gauge.exempt .mini-fill{background:var(--olive)}
 .mini-gauge.capped .mini-fill{background:var(--brass)}
@@ -166,7 +170,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);padding:0 16px 2
       <option value="any">Has hours</option>
       <option value="zero">No hours yet</option>
       <option value="partial">1–19.9 hours</option>
-      <option value="cap">20+ hours (max credit)</option>
+      <option value="cap">20+ hours</option>
     </select>
     <div class="toggle-wrap" role="group" aria-label="Column view">
       <button class="toggle-btn on" id="btnSummary">Summary</button>
@@ -325,9 +329,7 @@ function renderBody(rows){
       const chips = done.length
         ? `<div class="chips">${done.map(a=>`<div class="act-chip${cat(a).chip}"><span class="ch-label">${esc(a.label)}</span><span class="ch-date">${fmtDate(a.date)}</span><span class="ch-hrs">${fmt1(m.acts[a.col])}h</span></div>`).join('')}</div>`
         : `<div class="detail-none">No work sessions logged yet this year.</div>`;
-      const left = m.type==='L' ? 'Life member, exempt from work credits.' :
-        (m.hours>=CAP ? 'Maximum credit reached.' : `${fmt1(CAP-m.hours)} more hour${CAP-m.hours===1?'':'s'} to reach the $500 maximum credit.`);
-      html += `<tr class="detail"><td colspan="${ncols}"><div class="detail-inner"><div class="detail-head">${done.length} session${done.length===1?'':'s'} · ${esc(left)}</div>${chips}</div></td></tr>`;
+      html += `<tr class="detail"><td colspan="${ncols}"><div class="detail-inner"><div class="detail-head">${done.length} session${done.length===1?'':'s'}</div>${chips}</div></td></tr>`;
     }
   }
   document.getElementById('tbody').innerHTML = html;
