@@ -1,460 +1,368 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MGPA Work Credits — Full Column Report</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MGPA Work Credits</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F2ECDC; --surface:#FFFFFF; --surface-alt:#FBF6E7;
-  --ink:#262A1E; --ink-soft:#6E6A55; --line:#DED2AC; --line-soft:#E9E0C6;
-  --accent:#C2501B; --accent-soft:#E9B58C; --accent-wash:#F5E2D2;
-  --olive:#54632F; --olive-soft:#AEBD8E; --olive-wash:#E7EAD9;
-  --brass:#A07E2E; --danger:#A23A2E; --danger-wash:#F1DCD7;
-  --header-bg:#23261B; --header-ink:#F2ECDC;
+  --bg:#F2ECDC;--surface:#FFFFFF;--surface-alt:#FBF6E7;
+  --ink:#262A1E;--ink-soft:#6E6A55;--line:#DED2AC;--line-soft:#E9E0C6;
+  --accent:#C2501B;--accent-soft:#E9B58C;--accent-wash:#F5E2D2;
+  --olive:#54632F;--olive-soft:#AEBD8E;--olive-wash:#E7EAD9;
+  --brass:#A07E2E;--danger:#A23A2E;--danger-wash:#F1DCD7;
+  --header-bg:#23261B;--header-ink:#F2ECDC;--range-bg:#6B3A1F;
   --shadow:0 1px 3px rgba(38,42,30,.07),0 6px 18px rgba(38,42,30,.06);
 }
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
-body{background:var(--bg);color:var(--ink);font-family:'Source Sans 3',system-ui,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;}
-.mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:'Source Sans 3',system-ui,sans-serif;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
 
-/* ── masthead ── */
-.mast{background:var(--header-bg);color:var(--header-ink);padding:28px 24px 20px;border-bottom:5px solid var(--accent);position:relative;overflow:hidden;}
-.mast::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0,rgba(255,255,255,.025) 1px,transparent 1px,transparent 14px);pointer-events:none;}
-.mast-inner{max-width:1600px;margin:0 auto;position:relative;z-index:1;}
-.mast-eye{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-soft);margin-bottom:7px;}
-.mast h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(24px,3.5vw,38px);letter-spacing:.01em;text-transform:uppercase;margin:0 0 3px;line-height:1.05;}
-.mast .sub{font-size:13.5px;color:#C9C4AE;font-weight:500;}
-.mast-stats{display:flex;gap:20px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);}
-.mast-stats div{display:flex;flex-direction:column;gap:2px;}
-.mast-stats .v{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:600;color:#fff;}
-.mast-stats .k{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:#9B9680;}
+/* Masthead */
+.mast{position:relative;background:var(--header-bg);color:var(--header-ink);padding:28px 24px 22px;border-bottom:5px solid var(--accent);overflow:hidden}
+.mast::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0,rgba(255,255,255,.025) 1px,transparent 1px,transparent 14px)}
+.mast-inner{position:relative;max-width:1600px;margin:0 auto}
+.mast-eye{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--accent-soft);text-transform:uppercase}
+.mast h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(24px,3.5vw,38px);text-transform:uppercase;letter-spacing:.02em;margin:6px 0 2px;line-height:1.1}
+.mast .sub{color:#B8B39C;font-size:14px}
+.mast-stats{display:flex;flex-wrap:wrap;gap:12px 32px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(242,236,220,.12)}
+.mast-stats>div{display:flex;flex-direction:column}
+.mast-stats .v{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;color:#fff}
+.mast-stats .k{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:#9B9680}
 
-/* ── toolbar ── */
-.toolbar-wrap{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40;box-shadow:var(--shadow);}
-.toolbar{max-width:1600px;margin:0 auto;display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 20px;}
-.search-box{flex:1;min-width:200px;position:relative;}
-.search-box input{width:100%;padding:9px 12px 9px 32px;border:1px solid var(--line);border-radius:8px;background:var(--surface-alt);font-size:13.5px;color:var(--ink);font-family:inherit;}
-.search-box input:focus{outline:2px solid var(--accent-soft);border-color:var(--accent);}
-.search-box svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.5;}
-.pill{font-size:12px;padding:7px 12px;border-radius:7px;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--ink-soft);font-weight:500;font-family:inherit;white-space:nowrap;}
-.pill:hover{border-color:var(--accent-soft);}
-.pill.on{background:var(--ink);color:var(--bg);border-color:var(--ink);}
-select.pill{appearance:none;padding-right:26px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236E6A55'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;}
-.count-badge{font-size:11.5px;color:var(--ink-soft);margin-left:auto;white-space:nowrap;}
+main{max-width:1600px;margin:0 auto;padding:20px 24px 40px}
 
-/* ── toggle ── */
-.toggle-wrap{display:flex;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex-shrink:0;}
-.toggle-btn{font-family:'Oswald',sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;border:none;background:var(--surface);color:var(--ink-soft);padding:7px 14px;cursor:pointer;}
-.toggle-btn.on{background:var(--accent);color:#fff;}
-.toggle-btn:hover:not(.on){background:var(--surface-alt);}
+/* Toolbar */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.search{position:relative;flex:0 1 220px;min-width:160px}
+.search input{width:100%;font:inherit;font-size:13px;padding:7px 10px 7px 30px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink)}
+.search input:focus,.pill:focus-visible,.toggle-btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.search svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--ink-soft)}
+.pill{font:inherit;font-size:12.5px;padding:7px 12px;border-radius:7px;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--ink-soft);font-weight:500}
+.pill:hover{border-color:var(--accent-soft);color:var(--ink)}
+select.pill{appearance:none;-webkit-appearance:none;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236E6A55'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.toggle-wrap{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.toggle-btn{font-family:'Oswald',sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;border:none;background:var(--surface);color:var(--ink-soft);padding:7px 14px;cursor:pointer}
+.toggle-btn.on{background:var(--accent);color:#fff}
+.spacer{flex:1}
+.count{font-size:12.5px;color:var(--ink-soft)}
+.count b{font-family:'JetBrains Mono',monospace;color:var(--ink)}
+.legend{display:flex;gap:14px;font-size:11.5px;color:var(--ink-soft);align-items:center}
+.legend[hidden]{display:none}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 
-/* ── table ── */
-main{max-width:1600px;margin:0 auto;padding:20px;}
-.table-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:var(--shadow);}
-.scroll-wrap{overflow-x:auto;max-height:calc(100vh - 240px);overflow-y:auto;}
-table{border-collapse:collapse;font-size:13px;white-space:nowrap;width:100%;}
+/* Table */
 
-/* sticky cols */
-thead th{position:sticky;top:0;z-index:10;background:var(--surface-alt);text-align:left;padding:10px 12px;font-family:'Oswald',sans-serif;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--line);cursor:pointer;user-select:none;}
-thead th:hover{color:var(--ink);}
-thead th.sorted{color:var(--accent);}
-thead th.sorted::after{content:attr(data-arrow);margin-left:3px;font-size:9px;}
+.table-card.summary{width:fit-content;max-width:100%}
+.table-card.summary td.tag{min-width:140px}
+.table-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:auto;max-height:calc(100vh - 140px)}
+table{border-collapse:separate;border-spacing:0;font-size:13px;white-space:nowrap;width:100%}
+thead th{position:sticky;top:0;z-index:10;background:var(--surface-alt);font-family:'Oswald',sans-serif;font-weight:500;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;cursor:pointer;user-select:none;vertical-align:bottom}
+thead th.num{text-align:right}
+thead th:hover{color:var(--ink)}
+thead th.sorted{color:var(--accent)}
+thead th .arr{display:inline-block;width:9px;margin-left:3px;font-size:9px}
+thead tr.groups th{cursor:default;font-size:9.5px;letter-spacing:.06em;text-align:center;padding:5px 12px;border-bottom:none;top:0}
+thead tr.cols th{top:var(--gh,0px)}
+.gh-tag{background:var(--header-bg)!important;color:var(--accent-soft)!important}
+.gh-range{background:var(--range-bg)!important;color:rgba(255,255,255,.9)!important;border-left:1px solid rgba(255,255,255,.15)}
+.gh-other{background:var(--brass)!important;color:rgba(255,255,255,.95)!important;border-left:1px solid rgba(255,255,255,.15)}
+.gh-grounds{background:var(--olive)!important;color:rgba(255,255,255,.9)!important;border-left:1px solid rgba(255,255,255,.15)}
+th.act{min-width:86px;line-height:1.25;border-top:3px solid var(--range-bg)}
+th.act.grounds{border-top-color:var(--olive)}
+th.act.other{border-top-color:var(--brass)}
+th.act .d{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0;color:var(--ink-soft);text-transform:none}
+th.act.sorted .d{color:var(--accent)}
+tbody td{padding:8px 12px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+tbody tr.row{cursor:pointer}
+tbody tr.row:hover td{background:var(--surface-alt)}
+tbody tr.row.open td{background:var(--surface-alt)}
+thead th:first-child,tbody td:first-child{position:sticky;left:0;box-shadow:2px 0 4px rgba(38,42,30,.06)}
+thead th:first-child{z-index:20}
+thead tr.cols th:first-child{background:var(--header-bg);color:var(--accent-soft)}
+tbody td:first-child{z-index:5;background:var(--surface)}
+td.tag{font-family:'JetBrains Mono',monospace;font-weight:600;min-width:96px}
+td.tag .chev{display:inline-block;width:12px;color:var(--ink-soft);font-size:10px;transition:transform .15s}
+tr.open td.tag .chev{transform:rotate(90deg);color:var(--accent)}
+td.tag.bad{color:var(--danger)}
+td.tag .warn{font-family:'Source Sans 3',sans-serif;font-size:10px;font-weight:700;background:var(--danger-wash);color:var(--danger);border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:1px}
+td.num{text-align:right;font-family:'JetBrains Mono',monospace}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.badge.y{background:var(--accent-wash);color:var(--accent)}
+.badge.l{background:var(--olive-wash);color:var(--olive)}
+.badge.u{background:#EDEAE0;color:var(--ink-soft)}
+.badge.x{background:var(--danger-wash);color:var(--danger)}
+.mini-gauge{display:flex;align-items:center;gap:8px}
+.mini-track{width:64px;height:6px;background:var(--line-soft);border-radius:3px;overflow:hidden;flex:none}
+.mini-fill{height:100%;background:var(--accent);border-radius:3px}
+.mini-gauge.exempt .mini-fill{background:var(--olive)}
+.mini-gauge.capped .mini-fill{background:var(--brass)}
+.mini-val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);min-width:40px;text-align:right;font-weight:600}
+.mini-val.zero{color:var(--ink-soft);font-weight:400}
+.act-cell{color:var(--line);text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px}
+.act-cell.has{color:var(--ink);font-weight:600}
+.act-cell.has.g{color:var(--olive)}
+.act-cell.has.o{color:var(--brass)}
+tr.detail td{background:var(--surface-alt);padding:12px 16px 14px;white-space:normal}
+tr.detail td:first-child{position:static;box-shadow:none}
+.detail-inner{position:sticky;left:16px;width:min(1100px,calc(100vw - 96px))}
+tfoot td:first-child{position:sticky;left:0;box-shadow:2px 0 4px rgba(38,42,30,.06)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;max-width:1100px}
+.act-chip{background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:5px 10px;font-size:12px;display:flex;gap:8px;align-items:center;border-left:3px solid var(--range-bg)}
+.act-chip.grounds{border-left-color:var(--olive)}
+.act-chip.other{border-left-color:var(--brass)}
+.act-chip.other .ch-hrs{color:var(--brass)}
+.act-chip .ch-date{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-soft)}
+.act-chip .ch-hrs{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--accent)}
+.act-chip.grounds .ch-hrs{color:var(--olive)}
+.detail-head{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+.detail-none{color:var(--ink-soft);font-style:italic}
+tfoot td{position:sticky;bottom:0;background:var(--surface-alt);border-top:2px solid var(--line);padding:9px 12px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;z-index:8}
+tfoot td:first-child{z-index:12;font-family:'Oswald',sans-serif;letter-spacing:.07em;text-transform:uppercase;font-size:10.5px;color:var(--ink-soft)}
+tfoot td.num,tfoot td.act-cell{text-align:right}
+.empty{padding:40px;text-align:center;color:var(--ink-soft)}
 
-/* first col (tag#) always frozen */
-thead th:first-child,tbody td:first-child{position:sticky;left:0;z-index:11;box-shadow:2px 0 4px rgba(38,42,30,.06);}
-thead th:first-child{z-index:20;background:var(--header-bg);color:var(--accent-soft);}
-tbody td:first-child{background:var(--surface);}
-tbody tr:hover td:first-child{background:var(--surface-alt);}
+footer{text-align:center;font-size:11.5px;color:var(--ink-soft);padding:0 16px 28px}
 
-/* group headers */
-thead .gh{background:var(--brass);color:#fff;font-size:9.5px;letter-spacing:.06em;text-align:center;padding:5px 12px;cursor:default;}
-thead .gh-range{background:#6B3A1F;color:rgba(255,255,255,.9);}
-thead .gh-grounds{background:var(--olive);color:rgba(255,255,255,.9);}
-thead .gh-tag{background:var(--header-bg);color:var(--accent-soft);}
-
-/* data cells */
-tbody td{padding:9px 12px;border-bottom:1px solid var(--line-soft);vertical-align:middle;}
-tbody tr:hover{background:var(--surface-alt);}
-tbody tr.flagged{background:#FCF4F2;}
-tbody tr.detail-row{background:var(--surface-alt)!important;}
-tbody tr.detail-row:hover{background:var(--surface-alt)!important;}
-
-.mono-cell{font-family:'JetBrains Mono',monospace;font-size:12.5px;}
-.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace;}
-.badge.y{background:var(--accent-wash);color:var(--accent);}
-.badge.l{background:var(--olive-wash);color:var(--olive);}
-.badge.u{background:#EDEAE0;color:var(--ink-soft);}
-
-/* hours mini gauge */
-.mini-gauge{display:flex;align-items:center;gap:6px;}
-.mini-track{width:64px;height:6px;background:var(--line-soft);border-radius:3px;overflow:hidden;flex-shrink:0;}
-.mini-fill{height:100%;background:var(--accent);border-radius:3px;}
-.mini-gauge.exempt .mini-fill{background:var(--olive);}
-.mini-val{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-soft);}
-
-/* act cell */
-.act-cell{color:var(--line);text-align:right;}
-.act-cell.has{color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;}
-
-/* dues cell */
-.dues-cell{font-family:'JetBrains Mono',monospace;font-size:12px;}
-.dues-cell.min{color:var(--olive);}
-.dues-cell.full{color:var(--ink-soft);}
-
-/* expand */
-.exp-btn{width:20px;height:20px;border:1px solid var(--line);background:none;border-radius:5px;cursor:pointer;font-size:12px;line-height:1;color:var(--ink-soft);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
-.exp-btn:hover{border-color:var(--accent);color:var(--accent);}
-
-/* detail row */
-.detail-inner{padding:14px 16px 16px 44px;display:flex;flex-wrap:wrap;gap:8px;}
-.act-chip{background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:5px 10px;font-size:12px;display:flex;gap:8px;align-items:center;}
-.act-chip .ch-label{color:var(--ink-soft);}
-.act-chip .ch-date{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-soft);}
-.act-chip .ch-hrs{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--accent);}
-.act-chip.grounds .ch-hrs{color:var(--olive);}
-.detail-empty{font-size:12px;color:var(--ink-soft);font-style:italic;padding:10px 0;}
-
-/* pager */
-.pager{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;font-size:12px;color:var(--ink-soft);border-top:1px solid var(--line-soft);}
-.pager-btns{display:flex;gap:5px;}
-.pager-btns button{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:5px 10px;cursor:pointer;font-size:12px;color:var(--ink);font-family:inherit;}
-.pager-btns button:disabled{opacity:.35;cursor:default;}
-.pager-btns button:hover:not(:disabled){border-color:var(--accent);}
-
-/* hidden col support */
-.col-act.hidden{display:none;}
-
-footer{max-width:1600px;margin:0 auto;padding:6px 20px 32px;font-size:11.5px;color:var(--ink-soft);}
-footer .line{border-top:1px solid var(--line);margin-bottom:10px;}
+@media (max-width:640px){
+  .mast{padding:22px 16px 18px}
+  main{padding:16px 16px 32px}
+  .search{flex:1 1 100%}
+  .spacer{display:none}
+  .legend{display:none}
+  .table-card{max-height:none}
+  .mast-stats{gap:10px 22px}
+  .mast-stats .v{font-size:16px}
+}
 </style>
 </head>
 <body>
-
 <header class="mast">
   <div class="mast-inner">
-    <div class="mast-eye">MGPA · WORK CREDIT LEDGER · AS OF SEPTEMBER 1, 2026</div>
+    <div class="mast-eye">MGPA · Work Credit Ledger · As of Nov 4, 2026</div>
     <h1>MGPA Work Credit Hours</h1>
-    <div class="sub">Reporting period: 2026–2027 &nbsp;·&nbsp; All columns from Tag# rightward</div>
-    <div class="mast-stats">
-      <div><span class="v" id="ms-members">—</span><span class="k">Members</span></div>
-      <div><span class="v" id="ms-hours">—</span><span class="k">Total Hours</span></div>
-      <div><span class="v" id="ms-logged">—</span><span class="k">Members w/ Hours</span></div>
-      <div><span class="v" id="ms-sessions">—</span><span class="k">Sessions</span></div>
-    </div>
+    <div class="sub">Reporting period 2026–2027 · By Tag # with every work session</div>
+    <div class="mast-stats" id="mastStats"></div>
   </div>
 </header>
 
-<div class="toolbar-wrap">
+<main>
   <div class="toolbar">
-    <div class="search-box">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="search" placeholder="Search by Tag#, name, or membership type…">
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search Tag #" aria-label="Search by tag number" autocomplete="off">
     </div>
-    <select class="pill" id="typeFilter">
+    <select id="fType" class="pill" aria-label="Membership type">
       <option value="all">All types</option>
-      <option value="Y">Active (Y)</option>
-      <option value="L">Life (L)</option>
-      <option value="none">Unspecified</option>
+      <option value="Y">Y – Active</option>
+      <option value="L">L – Life</option>
+      <option value="none">Not recorded</option>
     </select>
-    <select class="pill" id="hoursFilter">
+    <select id="fHours" class="pill" aria-label="Hours worked">
       <option value="all">Any hours</option>
-      <option value="logged">Hours logged</option>
-      <option value="none">No hours</option>
-      <option value="cap">At/above cap (20h)</option>
+      <option value="any">Has hours</option>
+      <option value="zero">No hours yet</option>
+      <option value="partial">1–19.9 hours</option>
+      <option value="cap">20+ hours (max credit)</option>
     </select>
-    <div class="toggle-wrap">
+    <div class="toggle-wrap" role="group" aria-label="Column view">
       <button class="toggle-btn on" id="btnSummary">Summary</button>
       <button class="toggle-btn" id="btnFull">Full</button>
     </div>
-    <span class="count-badge" id="countBadge"></span>
-  </div>
-</div>
-
-<main>
-  <div class="table-card">
-    <div class="scroll-wrap">
-      <table id="mainTable">
-        <thead id="thead"></thead>
-        <tbody id="tbody"></tbody>
-      </table>
+    <div class="spacer"></div>
+    <div class="legend" id="legend" hidden>
+      <span><i style="background:var(--range-bg)"></i>Range activity</span>
+      <span><i style="background:var(--olive)"></i>Grounds &amp; equipment</span>
+      <span><i style="background:var(--brass)"></i>Raffles &amp; misc.</span>
     </div>
-    <div class="pager" id="pager"></div>
+    <div class="count" id="count"></div>
   </div>
+
+  <div class="table-card" id="card">
+    <table id="tbl">
+      <thead id="thead"></thead>
+      <tbody id="tbody"></tbody>
+      <tfoot id="tfoot"></tfoot>
+    </table>
+  </div>
+
 </main>
-
-<footer>
-  <div class="line"></div>
-  Source: <span class="mono">2026-09-01_Work_Credits.xlsx</span>, worksheet <span class="mono">Work Credits 26-27</span>.
-  Columns shown: Tag#, Membership Type, Total Hours, and all 21 tracked activity sessions.
-  Two fully-empty columns (MAT Notes, unnamed) are omitted. All figures are computed live from the embedded dataset.
-</footer>
+<footer>Source: 2026-11-04 Work Credits workbook, sheet “Work Credits 26-27” · Names and emails are left out of this report.</footer>
 
 <script>
-const MEMBERS = [{"tag":"2472","name":"James Ackerman","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L174","name":"Earl Addicks","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2241","name":"Logan Andrew","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2481","name":"Travis Arnold","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2134","name":"Jay Badiang","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L181","name":"Judy Ann Bailey","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2516","name":"William Baker","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1913","name":"Adam Baker","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2054","name":"James Baker, Jr.","type":"Y","officer":null,"hours":20.0,"dues":125.0,"acts":{"04/25/2026\nStill Target Cleanup":5.0,"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":8.5},"flags":[]},{"tag":"2519","name":"Ryan Bange","type":null,"officer":null,"hours":4.0,"dues":525.0,"acts":{"05/31/2026\nRifle Range-May":2.0,"08/18/2026\nRifle Range":2.0},"flags":["missing_membership_type"]},{"tag":"2414","name":"Nicholas Barry","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":null,"name":"Jimmy Barry","type":null,"officer":null,"hours":17.0,"dues":200.0,"acts":{"05/12/2026\nGrounds Misc.":9.0,"07/01/2026\nFive Stand\n":4.0,"07/11/2026\nMisc.":4.0},"flags":["missing_tag","missing_membership_type"]},{"tag":"L210","name":"Frank Bauerlein, Sr","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L228","name":"Jerrod Bauerlien","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"601","name":"Steve Bechtel","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"1611","name":"Rick Billmyre","type":"Y","officer":null,"hours":24.0,"dues":125.0,"acts":{"04/12/26\nSporting Clays":10.0,"06/07/2026\nSporting Clays":14.0},"flags":[]},{"tag":"2315","name":"Daniel Billmyre","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L194","name":"Howard Blevins","type":"L","officer":"L","hours":4.0,"dues":0.0,"acts":{"04/25/2026\nStill Target Cleanup":4.0},"flags":[]},{"tag":"2295","name":"Brian Blubaugh","type":"Y","officer":null,"hours":20.0,"dues":125.0,"acts":{"07/21/2026 \nRifle Range":10.0,"08/18/2026\nRifle Range":10.0},"flags":[]},{"tag":"2242","name":"Austin Bohn","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1728","name":"Stanley Bollinger","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L211","name":"David Bowersox","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2520","name":"Derek Bowersox","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2023","name":"Daniel Bowles","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1717","name":"Joey Breining","type":"Y","officer":null,"hours":31.0,"dues":125.0,"acts":{"05/04/2026\n5 Stand - April":15.0,"07/01/2026\nFive Stand\n":12.0,"07/30/2026 \n5 Stand":4.0},"flags":[]},{"tag":"L203","name":"Fran Brown","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L206","name":"Howard Burrill","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2614","name":"James Byrne","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"2514","name":"Bill Campbell","type":"Y","officer":null,"hours":15.5,"dues":237.5,"acts":{"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":9.0},"flags":[]},{"tag":"1101","name":"Tony Chiavacci","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2272","name":"Dominic Chiavacci","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L160","name":"Dave Clem","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2024","name":"Randy Cole","type":"Y","officer":null,"hours":6.0,"dues":475.0,"acts":{"04/26/226 \nStill Target":6.0},"flags":[]},{"tag":"2402","name":"Brian Cook","type":"Y","officer":null,"hours":14.5,"dues":262.5,"acts":{"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":8.0},"flags":[]},{"tag":"2092","name":"James Crebs","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"901","name":"James Crusse","type":"Y","officer":null,"hours":14.0,"dues":275.0,"acts":{"06/07/2026\nSporting Clays":14.0},"flags":[]},{"tag":"L185","name":"John Dallatezza","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2265","name":"Bryant Davidson","type":"Y","officer":null,"hours":8.0,"dues":425.0,"acts":{"08/18/2026\nRifle Range":8.0},"flags":[]},{"tag":"2492","name":"Nicholas Devries","type":"Y","officer":null,"hours":20.0,"dues":125.0,"acts":{"06/20/2026\nRifle Range":20.0},"flags":[]},{"tag":"L195","name":"Brian Dick","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2345","name":"Joe Dimartino","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1605","name":"Craig Dixon","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2293","name":"Gary Dobbs","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2391","name":"Norman Doggett","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"9803","name":"Steve Dukehart","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2450","name":"Nick Edmondson","type":"Y","officer":null,"hours":13.0,"dues":300.0,"acts":{"05/07/2026\nMower Service":11.0,"06/13/2026\nLawn Mower Repairs":2.0},"flags":[]},{"tag":"2252","name":"Rory Ellafrits","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1725","name":"Alan Eney","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L179","name":"T. Hugh Engel","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1608","name":"Ben Fair","type":"Y","officer":null,"hours":45.0,"dues":125.0,"acts":{"05/04/2026\n5 Stand - April":14.0,"05/30/2026\n5 Stand-May":11.0,"07/01/2026\nFive Stand\n":12.0,"07/30/2026 \n5 Stand":8.0},"flags":[]},{"tag":"L187","name":"James Feezer","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1824","name":"John Fisher","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2021","name":"Marc Fisher","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L154","name":"Luther A. Foglesong","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2416","name":"Chase Ford","type":"Y","officer":null,"hours":30.0,"dues":125.0,"acts":{"06/20/2026\nRifle Range":20.0,"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"L186","name":"David Geiman, Jr.","type":"L","officer":"L","hours":14.0,"dues":0.0,"acts":{"06/07/2026\nSporting Clays":14.0},"flags":[]},{"tag":"1202","name":"Gould Gibbons II","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L158","name":"James Gilbert","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1807","name":"Matt Giles","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2443","name":"Alec Goldberg","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2251","name":"Michael Gonder","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"604","name":"Mike Guercio","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L188","name":"Matthew Guilfoyle","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1718","name":"Dean Gunby","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"2455","name":"Joseph Hafner","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1811","name":"Ali Hagnhoo","type":"Y","officer":null,"hours":8.0,"dues":425.0,"acts":{"05/03/2026\nSporting Clays":8.0},"flags":[]},{"tag":"L151","name":"Richard Haines","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2002","name":"Robert Hall","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L212","name":"Tim Headley","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1819","name":"Chris Heard","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2531","name":"Michael Heise","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L159","name":"Jim Helm","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L213","name":"Nick Herrick, DVM","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L152","name":"Richard Hess, Jr.","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2471","name":"Kevin Hill","type":"Y","officer":null,"hours":20.5,"dues":125.0,"acts":{"04/25/2026\nStill Target Cleanup":5.0,"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":9.0},"flags":[]},{"tag":"L227","name":"Jay Hiner","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L163","name":"David Hohman","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L191","name":"Carl Holland III","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L183","name":"Robert Hook","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L207","name":"James  Horton","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"803","name":"James Howdyshell, III","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L169","name":"Robert Hugg","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1711","name":"Jack Hulme","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L214","name":"Robert Hunter","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1014","name":"Michael Iser","type":"Y","officer":null,"hours":8.0,"dues":425.0,"acts":{"05/03/2026\nSporting Clays":8.0},"flags":[]},{"tag":"2253","name":"Gary James","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2452","name":"David Jenkins","type":"Y","officer":null,"hours":30.0,"dues":125.0,"acts":{"04/12/26\nSporting Clays":6.0,"05/03/2026\nSporting Clays":8.0,"06/07/2026\nSporting Clays":16.0},"flags":[]},{"tag":"1311","name":"Bradley Jessup","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"06/07/2026\nSporting Clays":10.0},"flags":[]},{"tag":"2121","name":"Michael Johannes, Jr","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2126","name":"Jim Johnson","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2332","name":"Jonathan Jordan, Sr.","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2267","name":"David Kasza","type":"Y","officer":null,"hours":15.0,"dues":250.0,"acts":{"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":8.5},"flags":[]},{"tag":"L215","name":"Peggy Keeney","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L199","name":"Bob Kelly","type":"L","officer":"L","hours":10.0,"dues":0.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"2493","name":"David Kelly","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2143","name":"Vince Kilduff","type":"Y","officer":null,"hours":18.0,"dues":175.0,"acts":{"05/03/2026\nSporting Clays":8.0,"06/07/2026\nSporting Clays":10.0},"flags":[]},{"tag":"L201","name":"Tracey Kloss","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2511","name":"Michael Knight","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"04/12/26\nSporting Clays":10.0},"flags":[]},{"tag":"2515","name":"Christopher Kolb","type":"Y","officer":null,"hours":12.0,"dues":325.0,"acts":{"07/21/2026 \nRifle Range":10.0,"08/18/2026\nRifle Range":2.0},"flags":[]},{"tag":"2075","name":"Bill  Krumpe","type":null,"officer":null,"hours":20.0,"dues":125.0,"acts":{"08/18/2026\nRifle Range":20.0},"flags":["missing_membership_type"]},{"tag":"1808","name":"Steve  Kushmeider","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1403","name":"Mario Lagunas","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L184","name":"Gary Lang","type":"L","officer":"L","hours":4.0,"dues":0.0,"acts":{"07/01/2026\nFive Stand\n":4.0},"flags":[]},{"tag":"2293","name":"Gregg Lantz","type":"Y","officer":null,"hours":10.0,"dues":355.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"605","name":"Sean Lawlor","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2124","name":"Ryan Lawrence","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"2292","name":"Jacob Layte","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2518","name":"Stephen Leach","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1628","name":"Greg Leffier","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L180","name":"Parker Leimbach","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L155","name":"Mel Long","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L177","name":"Daniel W. Long","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1810","name":"Dale Lucas","type":"Y","officer":null,"hours":12.0,"dues":325.0,"acts":{"05/31/2026\nRifle Range-May":2.0,"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"L204","name":"Dick Magers","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L216","name":"Jack Massicot","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L209","name":"Darrell Mattheis","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2541","name":"Mark McArthur","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2513","name":"Vincent McCall","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"04/12/26\nSporting Clays":10.0},"flags":[]},{"tag":"L178","name":"Denise McGee","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1004","name":"Eric McGee","type":"Y","officer":null,"hours":90.0,"dues":125.0,"acts":{"05/04/2026\n5 Stand - April":11.0,"05/12/2026\nGrounds Misc.":9.0,"05/22/2026\nGrounds - Misc.":12.0,"05/30/2026\n5 Stand-May":15.0,"07/01/2026\nFive Stand\n":20.0,"07/11/2026\nMisc.":10.0,"07/30/2026 \n5 Stand":9.0,"08/05/2026\nRoad Maintenance":4.0},"flags":[]},{"tag":"2463","name":"Brandy McGee","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2029","name":"Tim McGee","type":"Y","officer":null,"hours":91.0,"dues":125.0,"acts":{"05/04/2026\n5 Stand - April":14.0,"05/12/2026\nGrounds Misc.":10.0,"05/22/2026\nGrounds - Misc.":12.0,"05/30/2026\n5 Stand-May":15.0,"07/01/2026\nFive Stand\n":20.0,"07/11/2026\nMisc.":10.0,"07/30/2026 \n5 Stand":10.0},"flags":[]},{"tag":"1704","name":"Nicholas McQuaid","type":"Y","officer":null,"hours":58.0,"dues":125.0,"acts":{"05/04/2026\n5 Stand - April":15.0,"05/30/2026\n5 Stand-May":12.0,"07/01/2026\nFive Stand\n":20.0,"07/30/2026 \n5 Stand":11.0},"flags":[]},{"tag":"1005","name":"Timothy McQuiad III","type":"Y","officer":null,"hours":59.0,"dues":125.0,"acts":{"05/04/2026\n5 Stand - April":14.0,"05/30/2026\n5 Stand-May":15.0,"07/01/2026\nFive Stand\n":20.0,"07/30/2026 \n5 Stand":10.0},"flags":[]},{"tag":"1722","name":"James McTygue","type":"Y","officer":null,"hours":18.0,"dues":175.0,"acts":{"04/12/26\nSporting Clays":10.0,"05/03/2026\nSporting Clays":8.0},"flags":[]},{"tag":"L175","name":"Vincient Mercurio","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2327","name":"Joseph Mercurio","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1517","name":"Mark Messenger","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2133","name":"Charles Mielke","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1821","name":"Robert Miller","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"220","name":"Chris Mills","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2127","name":"Darryl Modracek","type":"Y","officer":null,"hours":48.0,"dues":125.0,"acts":{"05/04/2026\n5 Stand - April":7.0,"05/30/2026\n5 Stand-May":15.0,"07/01/2026\nFive Stand\n":16.0,"07/30/2026 \n5 Stand":10.0},"flags":[]},{"tag":"L189","name":"Ralph M. Morris Jr.","type":"L","officer":"L","hours":8.0,"dues":0.0,"acts":{"05/03/2026\nSporting Clays":8.0},"flags":[]},{"tag":"L197","name":"Jimmie Mowder","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2145","name":"Ronald Natale","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2146","name":"Thomas Natale, Jr","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"0","name":"Trevor Needham","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["invalid_tag"]},{"tag":"2311","name":"Kenny Nelson","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1310","name":"Bryan Nelson","type":"Y","officer":null,"hours":8.0,"dues":425.0,"acts":{"06/20/2026\nRifle Range":8.0},"flags":[]},{"tag":null,"name":"Amber Mae Nicholls","type":"??","officer":null,"hours":24.0,"dues":125.0,"acts":{"07/01/2026\nFive Stand\n":12.0,"07/30/2026 \n5 Stand":12.0},"flags":["missing_tag"]},{"tag":"2271","name":"Richard Obriecht","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L165","name":"Eugene Osborne, Jr.","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2461","name":"Laura Owens","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L217","name":"Robert Parrish","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1710","name":"Paul Patel","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2532","name":"Albert Patterson","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L205","name":"Richard Peabody","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L193","name":"Karl Petro","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1908","name":"Mark Pierce","type":"Y","officer":null,"hours":8.0,"dues":425.0,"acts":{"05/24/2026\nStill Target":8.0},"flags":[]},{"tag":"L170","name":"William Pittinger","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L202","name":"Mike Pohuski","type":"L","officer":"L","hours":10.0,"dues":0.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"L200","name":"Tom Pohuski, Sr","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2279","name":"Richard Praniewicz","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"L153","name":"Kenneth Prince, Sr.","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2412","name":"Matt Radolec","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L196","name":"Gene Reed","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1723","name":"Michael Reid","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2061","name":"Nathan Rettig","type":"Y","officer":null,"hours":20.0,"dues":125.0,"acts":{"04/12/26\nSporting Clays":10.0,"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"2264","name":"Gary Reynolds","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L176","name":"Danny Rowe","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2022","name":"Frederick Rowe","type":"Y","officer":null,"hours":46.0,"dues":125.0,"acts":{"05/03/2026\nRangle - April":20.0,"05/31/2026\nRifle Range-May":4.0,"06/20/2026\nRifle Range":12.0,"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"2123","name":"Zach Russell","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"06/07/2026\nSporting Clays":10.0},"flags":[]},{"tag":"2099","name":"Christopher Rykiel","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"1105","name":"Isaac Saenz","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1708","name":"Jose Saldana","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1524","name":"Wesley Samosuk","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L192","name":"Bryan Sams","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2414","name":"Steven Scanniell, Sr.","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2522","name":"David Schmidtman","type":"Y","officer":null,"hours":7.0,"dues":450.0,"acts":{"05/07/2026\nMower Service":7.0},"flags":[]},{"tag":"L198","name":"Larry Schoonmaker","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L190","name":"Keith Schucker","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L208","name":"Max Schulte","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2466","name":"James Seger","type":null,"officer":null,"hours":18.0,"dues":175.0,"acts":{"07/21/2026 \nRifle Range":10.0,"08/18/2026\nRifle Range":8.0},"flags":["missing_membership_type"]},{"tag":"1104","name":"Melissa Selby","type":"Y","officer":null,"hours":18.5,"dues":162.5,"acts":{"04/25/2026\nStill Target Cleanup":4.0,"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":8.0},"flags":[]},{"tag":"1313","name":"Robert Selby","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L171","name":"Richard Sell","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L218","name":"Ed Sell, Jr.","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1906","name":"Brian Shanholtz","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"612","name":"Dave Shanholtz","type":null,"officer":null,"hours":10.0,"dues":375.0,"acts":{"04/12/26\nSporting Clays":10.0},"flags":["missing_membership_type"]},{"tag":"L219","name":"Marvin B. Shipley","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L162","name":"Merle Shorb","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L168","name":"Jeff Shorb","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L220","name":"John Sies","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2512","name":"Cody Skirka","type":"Y","officer":null,"hours":21.0,"dues":125.0,"acts":{"04/12/26\nSporting Clays":10.0,"05/04/2026\n5 Stand - April":7.0,"05/30/2026\n5 Stand-May":4.0},"flags":[]},{"tag":"1909","name":"Ryan Smetana","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2391","name":"John Smith","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L166","name":"Don Spangler","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2413","name":"Michael Stair","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"2517","name":"Will Stapleton","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L221","name":"Dennis Starliper","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"811","name":"David Straitman","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L222","name":"Larry Straka","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2325","name":"Tim Strasser","type":"Y","officer":null,"hours":4.0,"dues":525.0,"acts":{"04/25/2026\nStill Target Cleanup":4.0},"flags":[]},{"tag":"L223","name":"Jim Sturgill","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2323","name":"Lee Sturgill","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L161","name":"Fred Sulka","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2451","name":"Marc Sumers","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2446","name":"Tim Swaim","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L182","name":"James P. Sweeney","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2417","name":"Scott Szympruch","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2331","name":"Scott Thacher","type":"Y","officer":null,"hours":16.0,"dues":225.0,"acts":{"06/20/2026\nRifle Range":6.0,"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"9751","name":"William Thomas, Jr.","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L172","name":"William Thomas, Sr","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"1008","name":"Rick Thornley","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1816","name":"Bill Tice","type":"Y","officer":null,"hours":22.0,"dues":125.0,"acts":{"04/12/26\nSporting Clays":10.0,"06/07/2026\nSporting Clays":12.0},"flags":[]},{"tag":"1009","name":"Matt Tilmes","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2122","name":"Jason Trump","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L229","name":"Matthew Vosburgh","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L156","name":"Bradley Vosburgh","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"2037","name":"Mike Vosburgh","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"L173","name":"Michael Vosburgh","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"50","name":"Edward Vosburgh","type":null,"officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2144","name":"Jon Walker","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1607","name":"Carl Wallace","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"06/07/2026\nSporting Clays":10.0},"flags":[]},{"tag":"2120","name":"Neale Watson","type":"Y","officer":null,"hours":6.5,"dues":462.5,"acts":{"04/26/226 \nStill Target":6.5},"flags":[]},{"tag":"2028","name":"David  Watson, Jr","type":"Y","officer":null,"hours":8.0,"dues":425.0,"acts":{"05/03/2026\nRangle - April":8.0},"flags":[]},{"tag":"??","name":"Stefan Wazynski","type":"Y","officer":null,"hours":7.0,"dues":450.0,"acts":{"05/24/2026\nStill Target":7.0},"flags":["invalid_tag"]},{"tag":"L157","name":"Mike Weaver","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L164","name":"Joe Weaver","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L224","name":"Jeff Weaver","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L225","name":"Randy Weaver","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L167","name":"Steve Weidman","type":"L","officer":"L","hours":0.0,"dues":0.0,"acts":{},"flags":[]},{"tag":"L226","name":"Robert Weinreich","type":"L","officer":"L","hours":8.0,"dues":0.0,"acts":{"05/03/2026\nSporting Clays":8.0},"flags":[]},{"tag":"1010","name":"Kenny Williams","type":"Y","officer":null,"hours":8.0,"dues":425.0,"acts":{"05/03/2026\nSporting Clays":8.0},"flags":[]},{"tag":"903","name":"William Wolf, Jr","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"614","name":"Harry Yingling,IV","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"2312","name":"Paul  Yohn","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1623","name":"Kenneth Yoshida","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1701","name":"Daniel Zimmerman","type":"Y","officer":null,"hours":0.0,"dues":625.0,"acts":{},"flags":[]},{"tag":"1820","name":"Steven Zwobot","type":"Y","officer":null,"hours":10.0,"dues":375.0,"acts":{"06/20/2026\nRifle Range":10.0},"flags":[]}];
-const ACTIVITIES = [{"col":"04/12/26\nSporting Clays","label":"Sporting Clays","date":"2026-04-12","category":"Range Activity","shortDate":"04/12/26","total":86.0,"participants":9},{"col":"04/25/2026\nStill Target Cleanup","label":"Target Cleanup","date":"2026-04-25","category":"Range Activity","shortDate":"04/25/2026","total":22.0,"participants":5},{"col":"04/26/226 \nStill Target","label":"Target Work","date":"2026-04-26","category":"Range Activity","shortDate":"04/26/226","total":51.5,"participants":8},{"col":"05/03/2026\nRangle - April","label":"Range Work (April)","date":"2026-05-03","category":"Range Activity","shortDate":"05/03/2026","total":28.0,"participants":2},{"col":"05/03/2026\nSporting Clays","label":"Sporting Clays","date":"2026-05-03","category":"Range Activity","shortDate":"05/03/2026","total":64.0,"participants":8},{"col":"05/04/2026\n5 Stand - April","label":"5-Stand (April)","date":"2026-05-04","category":"Range Activity","shortDate":"05/04/2026","total":97.0,"participants":8},{"col":"05/07/2026\nMower Service","label":"Mower Service","date":"2026-05-07","category":"Grounds & Equipment","shortDate":"05/07/2026","total":18.0,"participants":2},{"col":"05/12/2026\nGrounds Misc.","label":"Grounds \u2014 Misc.","date":"2026-05-12","category":"Grounds & Equipment","shortDate":"05/12/2026","total":28.0,"participants":3},{"col":"05/22/2026\nGrounds - Misc.","label":"Grounds \u2014 Misc.","date":"2026-05-22","category":"Grounds & Equipment","shortDate":"05/22/2026","total":24.0,"participants":2},{"col":"05/24/2026\nStill Target","label":"Target Work","date":"2026-05-24","category":"Range Activity","shortDate":"05/24/2026","total":66.0,"participants":8},{"col":"05/30/2026\n5 Stand-May","label":"5-Stand (May)","date":"2026-05-30","category":"Range Activity","shortDate":"05/30/2026","total":87.0,"participants":7},{"col":"05/31/2026\nRifle Range-May","label":"Rifle Range (May)","date":"2026-05-31","category":"Range Activity","shortDate":"05/31/2026","total":8.0,"participants":3},{"col":"06/07/2026\nSporting Clays","label":"Sporting Clays","date":"2026-06-07","category":"Range Activity","shortDate":"06/07/2026","total":110.0,"participants":9},{"col":"06/13/2026\nLawn Mower Repairs","label":"Lawn Mower Repairs","date":"2026-06-13","category":"Grounds & Equipment","shortDate":"06/13/2026","total":2.0,"participants":1},{"col":"06/20/2026\nRifle Range","label":"Rifle Range","date":"2026-06-20","category":"Range Activity","shortDate":"06/20/2026","total":76.0,"participants":6},{"col":"07/01/2026\nFive Stand\n","label":"Five Stand","date":"2026-07-01","category":"Range Activity","shortDate":"07/01/2026","total":140.0,"participants":10},{"col":"07/11/2026\nMisc.","label":"Misc. Grounds","date":"2026-07-11","category":"Grounds & Equipment","shortDate":"07/11/2026","total":24.0,"participants":3},{"col":"07/21/2026 \nRifle Range","label":"Rifle Range","date":"2026-07-21","category":"Range Activity","shortDate":"07/21/2026","total":170.0,"participants":17},{"col":"07/30/2026 \n5 Stand","label":"5-Stand","date":"2026-07-30","category":"Range Activity","shortDate":"07/30/2026","total":74.0,"participants":8},{"col":"08/05/2026\nRoad Maintenance","label":"Road Maintenance","date":"2026-08-05","category":"Grounds & Equipment","shortDate":"08/05/2026","total":4.0,"participants":1},{"col":"08/18/2026\nRifle Range","label":"Rifle Range","date":"2026-08-18","category":"Range Activity","shortDate":"08/18/2026","total":50.0,"participants":6}];
-</script>
-<script>
-const CAP = 20, RATE = 25;
+const MEMBERS = [{"tag":"2472","type":"Y","hours":10.0,"acts":{"09/26/2026\nLions Club Shoot":10.0},"flags":[]},{"tag":"L174","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2241","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2481","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2134","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L181","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1913","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2516","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2054","type":"Y","hours":44.0,"acts":{"04/25/2026\nStill Target Cleanup":5.0,"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":8.5,"April Gun Drawing\nM. Selby":24.0},"flags":[]},{"tag":"2519","type":null,"hours":4.0,"acts":{"05/31/2026\nRifle Range-May":2.0,"08/18/2026\nRifle Range":2.0},"flags":["missing_membership_type"]},{"tag":"2414","type":null,"hours":24.0,"acts":{"April Gun Drawing\nM. Selby":24.0},"flags":["missing_membership_type"]},{"tag":"L210","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L228","type":"L","hours":21.0,"acts":{"April Gun Drawing\nM. Selby":21.0},"flags":[]},{"tag":"601","type":"Y","hours":13.0,"acts":{"07/21/2026 \nRifle Range":10.0,"April Gun Drawing\nM. Selby":3.0},"flags":[]},{"tag":"2315","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1611","type":"Y","hours":24.0,"acts":{"04/12/26\nSporting Clays":10.0,"06/07/2026\nSporting Clays":14.0},"flags":[]},{"tag":"L194","type":"L","hours":64.0,"acts":{"04/25/2026\nStill Target Cleanup":4.0,"09/26/2026\nLions Club Shoot":10.0,"10/21/26\nBenelli Gun Raffle":24.0,"April Gun Drawing\nM. Selby":26.0},"flags":[]},{"tag":"2295","type":"Y","hours":23.0,"acts":{"07/21/2026 \nRifle Range":10.0,"08/18/2026\nRifle Range":10.0,"April Gun Drawing\nM. Selby":3.0},"flags":[]},{"tag":"2242","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1728","type":"Y","hours":16.0,"acts":{"10/21/26\nBenelli Gun Raffle":8.0,"April Gun Drawing\nM. Selby":8.0},"flags":[]},{"tag":"L211","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2520","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2023","type":"Y","hours":4.0,"acts":{"10/21/26\nBenelli Gun Raffle":4.0},"flags":[]},{"tag":"1717","type":"Y","hours":51.0,"acts":{"05/04/2026\n5 Stand - April":15.0,"07/01/2026\nFive Stand\n":12.0,"07/30/2026 \n5 Stand":4.0,"9/2/2026\n5-Stand":4.0,"10/15/26\n5-Stand for \nSeptember":9.0,"11/2/26\n5-Stand":7.0},"flags":[]},{"tag":"L203","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L206","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2614","type":"Y","hours":18.0,"acts":{"07/21/2026 \nRifle Range":10.0,"10/21/26\nBenelli Gun Raffle":8.0},"flags":[]},{"tag":"2514","type":"Y","hours":17.5,"acts":{"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":9.0,"April Gun Drawing\nM. Selby":2.0},"flags":[]},{"tag":"2272","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1101","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"L160","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2024","type":"Y","hours":6.0,"acts":{"04/26/226 \nStill Target":6.0},"flags":[]},{"tag":"2402","type":"Y","hours":26.5,"acts":{"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":8.0,"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"2092","type":null,"hours":21.0,"acts":{"April Gun Drawing\nM. Selby":21.0},"flags":["missing_membership_type"]},{"tag":"901","type":"Y","hours":14.0,"acts":{"06/07/2026\nSporting Clays":14.0},"flags":[]},{"tag":"L185","type":"L","hours":3.0,"acts":{"April Gun Drawing\nM. Selby":3.0},"flags":[]},{"tag":"2265","type":"Y","hours":8.0,"acts":{"08/18/2026\nRifle Range":8.0},"flags":[]},{"tag":"2492","type":"Y","hours":32.0,"acts":{"06/20/2026\nRifle Range":20.0,"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"L195","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2345","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1605","type":"Y","hours":8.0,"acts":{"10/21/26\nBenelli Gun Raffle":8.0},"flags":[]},{"tag":"2293","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2391","type":"Y","hours":8.0,"acts":{"10/21/26\nBenelli Gun Raffle":8.0},"flags":[]},{"tag":"9803","type":"Y","hours":4.0,"acts":{"10/21/26\nBenelli Gun Raffle":4.0},"flags":[]},{"tag":"2450","type":"Y","hours":52.0,"acts":{"05/07/2026\nMower Service":11.0,"06/13/2026\nLawn Mower Repairs":2.0,"Misc. Hours":15.0,"April Gun Drawing\nM. Selby":24.0},"flags":[]},{"tag":"2252","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1725","type":"Y","hours":8.0,"acts":{"10/21/26\nBenelli Gun Raffle":8.0},"flags":[]},{"tag":"L179","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1608","type":"Y","hours":150.0,"acts":{"05/04/2026\n5 Stand - April":14.0,"05/30/2026\n5 Stand-May":11.0,"07/01/2026\nFive Stand\n":12.0,"07/30/2026 \n5 Stand":8.0,"9/2/2026\n5-Stand":4.0,"10/15/26\n5-Stand for \nSeptember":20.0,"10/21/26\nBenelli Gun Raffle":32.0,"11/2/26\n5-Stand":13.0,"April Gun Drawing\nM. Selby":36.0},"flags":[]},{"tag":"L187","type":"L","hours":42.0,"acts":{"April Gun Drawing\nM. Selby":42.0},"flags":[]},{"tag":"1824","type":"Y","hours":48.0,"acts":{"10/21/26\nBenelli Gun Raffle":24.0,"April Gun Drawing\nM. Selby":24.0},"flags":[]},{"tag":"2021","type":"Y","hours":26.0,"acts":{"10/21/26\nBenelli Gun Raffle":8.0,"April Gun Drawing\nM. Selby":18.0},"flags":[]},{"tag":"L154","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2416","type":"Y","hours":30.0,"acts":{"06/20/2026\nRifle Range":20.0,"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"L186","type":"L","hours":18.0,"acts":{"06/07/2026\nSporting Clays":14.0,"10/04/2026\nSporting Clays":4.0},"flags":[]},{"tag":"1202","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"L158","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1807","type":"Y","hours":6.0,"acts":{"April Gun Drawing\nM. Selby":6.0},"flags":[]},{"tag":"2443","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2251","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"604","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L188","type":"L","hours":24.0,"acts":{"April Gun Drawing\nM. Selby":24.0},"flags":[]},{"tag":"1718","type":"Y","hours":16.0,"acts":{"07/21/2026 \nRifle Range":10.0,"April Gun Drawing\nM. Selby":6.0},"flags":[]},{"tag":"2455","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1811","type":"Y","hours":16.0,"acts":{"05/03/2026\nSporting Clays":8.0,"10/04/2026\nSporting Clays":8.0},"flags":[]},{"tag":"L151","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2002","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L212","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1819","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2531","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"L159","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L213","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L152","type":"L","hours":24.0,"acts":{"April Gun Drawing\nM. Selby":24.0},"flags":[]},{"tag":"2471","type":"Y","hours":21.5,"acts":{"04/25/2026\nStill Target Cleanup":5.0,"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":9.0,"April Gun Drawing\nM. Selby":1.0},"flags":[]},{"tag":"L227","type":"L","hours":14.0,"acts":{"10/21/26\nBenelli Gun Raffle":8.0,"April Gun Drawing\nM. Selby":6.0},"flags":[]},{"tag":"L163","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L191","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L183","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L207","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"803","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"L169","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1711","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"L214","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1014","type":"Y","hours":8.0,"acts":{"05/03/2026\nSporting Clays":8.0},"flags":[]},{"tag":"2253","type":"Y","hours":8.0,"acts":{"10/04/2026\nSporting Clays":8.0},"flags":[]},{"tag":"2452","type":"Y","hours":60.0,"acts":{"04/12/26\nSporting Clays":6.0,"05/03/2026\nSporting Clays":8.0,"06/07/2026\nSporting Clays":16.0,"09/26/2026\nLions Club Shoot":10.0,"10/04/2026\nSporting Clays":8.0,"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"1311","type":"Y","hours":10.0,"acts":{"06/07/2026\nSporting Clays":10.0},"flags":[]},{"tag":"2121","type":"Y","hours":12.0,"acts":{"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"2126","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2332","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2267","type":"Y","hours":42.0,"acts":{"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":8.5,"April Gun Drawing\nM. Selby":27.0},"flags":[]},{"tag":"L215","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L199","type":"L","hours":24.0,"acts":{"07/21/2026 \nRifle Range":10.0,"10/21/26\nBenelli Gun Raffle":8.0,"April Gun Drawing\nM. Selby":6.0},"flags":[]},{"tag":"2493","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2143","type":"Y","hours":21.0,"acts":{"05/03/2026\nSporting Clays":8.0,"06/07/2026\nSporting Clays":10.0,"April Gun Drawing\nM. Selby":3.0},"flags":[]},{"tag":"L201","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2511","type":"Y","hours":10.0,"acts":{"04/12/26\nSporting Clays":10.0},"flags":[]},{"tag":"2515","type":"Y","hours":12.0,"acts":{"07/21/2026 \nRifle Range":10.0,"08/18/2026\nRifle Range":2.0},"flags":[]},{"tag":"2075","type":null,"hours":20.0,"acts":{"08/18/2026\nRifle Range":20.0},"flags":["missing_membership_type"]},{"tag":"1808","type":"Y","hours":10.0,"acts":{"09/26/2026\nLions Club Shoot":10.0},"flags":[]},{"tag":"1403","type":"Y","hours":3.0,"acts":{"April Gun Drawing\nM. Selby":3.0},"flags":[]},{"tag":"L184","type":"L","hours":4.0,"acts":{"07/01/2026\nFive Stand\n":4.0},"flags":[]},{"tag":"2293","type":"Y","hours":10.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"605","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2124","type":"Y","hours":10.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"2292","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2518","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1628","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"L180","type":"L","hours":4.0,"acts":{"10/21/26\nBenelli Gun Raffle":4.0},"flags":[]},{"tag":"L177","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L155","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1810","type":"Y","hours":37.0,"acts":{"05/31/2026\nRifle Range-May":2.0,"07/21/2026 \nRifle Range":10.0,"10/21/26\nBenelli Gun Raffle":12.0,"April Gun Drawing\nM. Selby":13.0},"flags":[]},{"tag":"L204","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L216","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L209","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2541","type":"Y","hours":12.0,"acts":{"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"2513","type":"Y","hours":30.0,"acts":{"04/12/26\nSporting Clays":10.0,"10/21/26\nBenelli Gun Raffle":14.0,"April Gun Drawing\nM. Selby":6.0},"flags":[]},{"tag":"2463","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"L178","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1004","type":"Y","hours":118.0,"acts":{"05/04/2026\n5 Stand - April":11.0,"05/12/2026\nGrounds Misc.":9.0,"05/22/2026\nGrounds - Misc.":12.0,"05/30/2026\n5 Stand-May":15.0,"07/01/2026\nFive Stand\n":20.0,"07/11/2026\nMisc.":10.0,"07/30/2026 \n5 Stand":9.0,"08/05/2026\nRoad Maintenance":4.0,"9/2/2026\n5-Stand":17.0,"10/15/26\n5-Stand for \nSeptember":5.0,"11/2/26\n5-Stand":6.0},"flags":[]},{"tag":"2029","type":"Y","hours":144.0,"acts":{"05/04/2026\n5 Stand - April":14.0,"05/12/2026\nGrounds Misc.":10.0,"05/22/2026\nGrounds - Misc.":12.0,"05/30/2026\n5 Stand-May":15.0,"07/01/2026\nFive Stand\n":20.0,"07/11/2026\nMisc.":10.0,"07/30/2026 \n5 Stand":10.0,"9/2/2026\n5-Stand":17.0,"10/15/26\n5-Stand for \nSeptember":20.0,"10/21/26\nBenelli Gun Raffle":4.0,"11/2/26\n5-Stand":6.0,"April Gun Drawing\nM. Selby":6.0},"flags":[]},{"tag":"1704","type":"Y","hours":101.0,"acts":{"05/04/2026\n5 Stand - April":15.0,"05/30/2026\n5 Stand-May":12.0,"07/01/2026\nFive Stand\n":20.0,"07/30/2026 \n5 Stand":11.0,"9/2/2026\n5-Stand":15.0,"10/15/26\n5-Stand for \nSeptember":15.0,"11/2/26\n5-Stand":13.0},"flags":[]},{"tag":"1005","type":"Y","hours":110.0,"acts":{"05/04/2026\n5 Stand - April":14.0,"05/30/2026\n5 Stand-May":15.0,"07/01/2026\nFive Stand\n":20.0,"07/30/2026 \n5 Stand":10.0,"9/2/2026\n5-Stand":11.0,"10/15/26\n5-Stand for \nSeptember":15.0,"11/2/26\n5-Stand":13.0,"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"1722","type":"Y","hours":28.0,"acts":{"04/12/26\nSporting Clays":10.0,"05/03/2026\nSporting Clays":8.0,"09/26/2026\nLions Club Shoot":10.0},"flags":[]},{"tag":"2327","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"L175","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1517","type":"L","hours":19.0,"acts":{"10/21/26\nBenelli Gun Raffle":10.0,"April Gun Drawing\nM. Selby":9.0},"flags":[]},{"tag":"2133","type":"Y","hours":32.0,"acts":{"10/21/26\nBenelli Gun Raffle":24.0,"April Gun Drawing\nM. Selby":8.0},"flags":[]},{"tag":"1821","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"220","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2127","type":"Y","hours":105.0,"acts":{"05/04/2026\n5 Stand - April":7.0,"05/30/2026\n5 Stand-May":15.0,"07/01/2026\nFive Stand\n":16.0,"07/30/2026 \n5 Stand":10.0,"9/2/2026\n5-Stand":15.0,"10/15/26\n5-Stand for \nSeptember":15.0,"10/21/26\nBenelli Gun Raffle":8.0,"11/2/26\n5-Stand":13.0,"April Gun Drawing\nM. Selby":6.0},"flags":[]},{"tag":"L189","type":"L","hours":16.0,"acts":{"05/03/2026\nSporting Clays":8.0,"10/04/2026\nSporting Clays":8.0},"flags":[]},{"tag":"L197","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2145","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2146","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2311","type":"Y","hours":21.0,"acts":{"April Gun Drawing\nM. Selby":21.0},"flags":[]},{"tag":"1310","type":"Y","hours":8.0,"acts":{"06/20/2026\nRifle Range":8.0},"flags":[]},{"tag":"2271","type":"Y","hours":6.0,"acts":{"April Gun Drawing\nM. Selby":6.0},"flags":[]},{"tag":"L165","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2461","type":"Y","hours":20.0,"acts":{"10/21/26\nBenelli Gun Raffle":8.0,"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"L217","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1710","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2532","type":"Y","hours":18.0,"acts":{"April Gun Drawing\nM. Selby":18.0},"flags":[]},{"tag":"L205","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L193","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1908","type":"Y","hours":8.0,"acts":{"05/24/2026\nStill Target":8.0},"flags":[]},{"tag":"L170","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L202","type":"L","hours":10.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"L200","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2279","type":"Y","hours":10.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"L153","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2412","type":"Y","hours":6.0,"acts":{"April Gun Drawing\nM. Selby":6.0},"flags":[]},{"tag":"L196","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1723","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2061","type":"Y","hours":20.0,"acts":{"04/12/26\nSporting Clays":10.0,"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"2264","type":"Y","hours":12.0,"acts":{"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"L176","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2022","type":"Y","hours":46.0,"acts":{"05/03/2026\nRangle - April":20.0,"05/31/2026\nRifle Range-May":4.0,"06/20/2026\nRifle Range":12.0,"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"2123","type":"Y","hours":18.0,"acts":{"06/07/2026\nSporting Clays":10.0,"10/04/2026\nSporting Clays":8.0},"flags":[]},{"tag":"2099","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"1105","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1708","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1524","type":null,"hours":10.0,"acts":{"09/26/2026\nLions Club Shoot":10.0},"flags":["missing_membership_type"]},{"tag":"L192","type":"L","hours":8.0,"acts":{"10/04/2026\nSporting Clays":8.0},"flags":[]},{"tag":"2414","type":"Y","hours":22.0,"acts":{"10/21/26\nBenelli Gun Raffle":16.0,"April Gun Drawing\nM. Selby":6.0},"flags":[]},{"tag":"2522","type":"Y","hours":7.0,"acts":{"05/07/2026\nMower Service":7.0},"flags":[]},{"tag":"L198","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L190","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L208","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2466","type":null,"hours":18.0,"acts":{"07/21/2026 \nRifle Range":10.0,"08/18/2026\nRifle Range":8.0},"flags":["missing_membership_type"]},{"tag":"1104","type":"Y","hours":18.5,"acts":{"04/25/2026\nStill Target Cleanup":4.0,"04/26/226 \nStill Target":6.5,"05/24/2026\nStill Target":8.0},"flags":[]},{"tag":"1313","type":"Y","hours":16.0,"acts":{"10/21/26\nBenelli Gun Raffle":16.0},"flags":[]},{"tag":"L171","type":"L","hours":20.0,"acts":{"10/21/26\nBenelli Gun Raffle":8.0,"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"L218","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1906","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"612","type":null,"hours":10.0,"acts":{"04/12/26\nSporting Clays":10.0},"flags":["missing_membership_type"]},{"tag":"L219","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L168","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L162","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L220","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2512","type":"Y","hours":39.0,"acts":{"04/12/26\nSporting Clays":10.0,"05/04/2026\n5 Stand - April":7.0,"05/30/2026\n5 Stand-May":4.0,"April Gun Drawing\nM. Selby":18.0},"flags":[]},{"tag":"1909","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"2391","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L166","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2413","type":"Y","hours":10.0,"acts":{"07/21/2026 \nRifle Range":10.0},"flags":[]},{"tag":"2517","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L221","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"811","type":null,"hours":6.0,"acts":{"April Gun Drawing\nM. Selby":6.0},"flags":["missing_membership_type"]},{"tag":"L222","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2325","type":"Y","hours":4.0,"acts":{"04/25/2026\nStill Target Cleanup":4.0},"flags":[]},{"tag":"L223","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2323","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L161","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2451","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2446","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"L182","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2417","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2331","type":"Y","hours":18.0,"acts":{"06/20/2026\nRifle Range":6.0,"07/21/2026 \nRifle Range":10.0,"Misc. Hours\nBackground Checks":2.0},"flags":[]},{"tag":"9751","type":"Y","hours":93.0,"acts":{"April Gun Drawing\nM. Selby":93.0},"flags":[]},{"tag":"L172","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"1008","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1816","type":"Y","hours":22.0,"acts":{"04/12/26\nSporting Clays":10.0,"06/07/2026\nSporting Clays":12.0},"flags":[]},{"tag":"1009","type":"Y","hours":10.0,"acts":{" (multiple Months)\nWork Credits":10.0},"flags":[]},{"tag":"2122","type":"Y","hours":24.0,"acts":{"April Gun Drawing\nM. Selby":24.0},"flags":[]},{"tag":"L156","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"50","type":null,"hours":0.0,"acts":{},"flags":["missing_membership_type"]},{"tag":"L229","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L173","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"2037","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2144","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1607","type":"Y","hours":48.0,"acts":{"06/07/2026\nSporting Clays":10.0,"09/26/2026\nLions Club Shoot":10.0,"10/21/26\nBenelli Gun Raffle":16.0,"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"2120","type":"Y","hours":6.5,"acts":{"04/26/226 \nStill Target":6.5},"flags":[]},{"tag":"2028","type":"Y","hours":8.0,"acts":{"05/03/2026\nRangle - April":8.0},"flags":[]},{"tag":"L224","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L164","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L157","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L225","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L167","type":"L","hours":0.0,"acts":{},"flags":[]},{"tag":"L226","type":"L","hours":8.0,"acts":{"05/03/2026\nSporting Clays":8.0},"flags":[]},{"tag":"1010","type":"Y","hours":20.0,"acts":{"05/03/2026\nSporting Clays":8.0,"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"903","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"614","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"2312","type":"Y","hours":36.0,"acts":{"10/21/26\nBenelli Gun Raffle":24.0,"April Gun Drawing\nM. Selby":12.0},"flags":[]},{"tag":"1623","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1701","type":"Y","hours":0.0,"acts":{},"flags":[]},{"tag":"1820","type":"Y","hours":10.0,"acts":{"06/20/2026\nRifle Range":10.0},"flags":[]}];
+const ACTS = [{"col":"04/12/26\nSporting Clays","label":"Sporting Clays","date":"2026-04-12","category":"Range Activity","participants":9,"total":86.0},{"col":"04/25/2026\nStill Target Cleanup","label":"Target Cleanup","date":"2026-04-25","category":"Range Activity","participants":5,"total":22.0},{"col":"04/26/226 \nStill Target","label":"Target Work","date":"2026-04-26","category":"Range Activity","participants":8,"total":51.5},{"col":"05/03/2026\nRangle - April","label":"Range Work (April)","date":"2026-05-03","category":"Range Activity","participants":2,"total":28.0},{"col":"05/03/2026\nSporting Clays","label":"Sporting Clays","date":"2026-05-03","category":"Range Activity","participants":8,"total":64.0},{"col":"05/04/2026\n5 Stand - April","label":"5-Stand (April)","date":"2026-05-04","category":"Range Activity","participants":8,"total":97.0},{"col":"05/07/2026\nMower Service","label":"Mower Service","date":"2026-05-07","category":"Grounds & Equipment","participants":2,"total":18.0},{"col":"05/12/2026\nGrounds Misc.","label":"Grounds \u2014 Misc.","date":"2026-05-12","category":"Grounds & Equipment","participants":2,"total":19.0},{"col":"05/22/2026\nGrounds - Misc.","label":"Grounds \u2014 Misc.","date":"2026-05-22","category":"Grounds & Equipment","participants":2,"total":24.0},{"col":"05/24/2026\nStill Target","label":"Target Work","date":"2026-05-24","category":"Range Activity","participants":7,"total":59.0},{"col":"05/30/2026\n5 Stand-May","label":"5-Stand (May)","date":"2026-05-30","category":"Range Activity","participants":7,"total":87.0},{"col":"05/31/2026\nRifle Range-May","label":"Rifle Range (May)","date":"2026-05-31","category":"Range Activity","participants":3,"total":8.0},{"col":"06/07/2026\nSporting Clays","label":"Sporting Clays","date":"2026-06-07","category":"Range Activity","participants":9,"total":110.0},{"col":"06/13/2026\nLawn Mower Repairs","label":"Lawn Mower Repairs","date":"2026-06-13","category":"Grounds & Equipment","participants":1,"total":2.0},{"col":"06/20/2026\nRifle Range","label":"Rifle Range","date":"2026-06-20","category":"Range Activity","participants":6,"total":76.0},{"col":"07/01/2026\nFive Stand\n","label":"Five Stand","date":"2026-07-01","category":"Range Activity","participants":8,"total":124.0},{"col":"07/11/2026\nMisc.","label":"Misc. Grounds","date":"2026-07-11","category":"Grounds & Equipment","participants":2,"total":20.0},{"col":"07/21/2026 \nRifle Range","label":"Rifle Range","date":"2026-07-21","category":"Range Activity","participants":17,"total":170.0},{"col":"07/30/2026 \n5 Stand","label":"5-Stand","date":"2026-07-30","category":"Range Activity","participants":7,"total":62.0},{"col":"08/05/2026\nRoad Maintenance","label":"Road Maintenance","date":"2026-08-05","category":"Grounds & Equipment","participants":1,"total":4.0},{"col":"08/18/2026\nRifle Range","label":"Rifle Range","date":"2026-08-18","category":"Range Activity","participants":6,"total":50.0},{"col":"9/2/2026\n5-Stand","label":"5-Stand","date":"2026-09-02","category":"Range Activity","participants":7,"total":83.0},{"col":"09/26/2026\nLions Club Shoot","label":"Lions Club Shoot","date":"2026-09-26","category":"Range Activity","participants":7,"total":70.0},{"col":"10/04/2026\nSporting Clays","label":"Sporting Clays","date":"2026-10-04","category":"Range Activity","participants":7,"total":52.0},{"col":"10/15/26\n5-Stand for \nSeptember","label":"5-Stand (Sept.)","date":"2026-10-15","category":"Range Activity","participants":7,"total":99.0},{"col":"10/21/26\nBenelli Gun Raffle","label":"Benelli Gun Raffle","date":"2026-10-21","category":"Raffles & Misc.","participants":26,"total":316.0},{"col":"11/2/26\n5-Stand","label":"5-Stand","date":"2026-11-02","category":"Range Activity","participants":7,"total":71.0},{"col":"Misc. Hours\nBackground Checks","label":"Misc. \u2014 Background Checks","date":null,"category":"Raffles & Misc.","participants":1,"total":2.0},{"col":"Misc. Hours","label":"Misc. Hours","date":null,"category":"Raffles & Misc.","participants":1,"total":15.0},{"col":"April Gun Drawing\nM. Selby","label":"April Gun Drawing","date":null,"category":"Raffles & Misc.","participants":52,"total":775.0},{"col":" (multiple Months)\nWork Credits","label":"Work Credits (multiple months)","date":null,"category":"Raffles & Misc.","participants":1,"total":10.0}];
+const CAP = 20;
+
 const fmt1 = n => n % 1 === 0 ? n.toLocaleString() : (Math.round(n*10)/10).toFixed(1);
-const money = n => n == null ? '—' : '$' + Math.round(n).toLocaleString();
+const money = n => n == null ? '—' : '$' + (n % 1 === 0 ? n.toLocaleString() : n.toFixed(2));
 const esc = s => (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmtDate = iso => { const d=new Date(iso+'T12:00:00'); return d.toLocaleDateString(undefined,{month:'short',day:'numeric'}); };
-
-// derive credit pct for each member
-MEMBERS.forEach(m => {
-  m.creditPct = m.type === 'L' ? null : Math.min(m.hours, CAP) / CAP;
-});
-
-// populate activity totals
-const ACT_MAP = {};
-ACTIVITIES.forEach(a => { ACT_MAP[a.col] = a; });
-
-// masthead stats
-const totalHours = MEMBERS.reduce((s,m)=>s+m.hours,0);
-document.getElementById('ms-members').textContent = MEMBERS.length;
-document.getElementById('ms-hours').textContent = fmt1(totalHours);
-document.getElementById('ms-logged').textContent = MEMBERS.filter(m=>m.hours>0).length;
-document.getElementById('ms-sessions').textContent = ACTIVITIES.length;
-
-// ── state ──
-let state = {
-  search: '', type: 'all', hours: 'all',
-  sort: 'tag', dir: 1, page: 1, pageSize: 30,
-  view: 'summary',  // 'summary' | 'full'
-  expanded: new Set()
+const fmtDate = iso => !iso ? 'No date' : new Date(iso+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+const tagRank = t => {
+  if (!t) return [3,0,''];
+  if (/^\d+$/.test(t) && t !== '0') return [0,parseInt(t,10),t];
+  const lm = t.match(/^[Ll](\d+)$/);
+  if (lm) return [1,parseInt(lm[1],10),t];
+  return [2,0,t];
 };
+const cmpTag = (a,b) => { const x=tagRank(a), y=tagRank(b); return x[0]-y[0] || x[1]-y[1] || x[2].localeCompare(y[2]); };
+const CATS = {'Range Activity':{gh:'gh-range',th:'',chip:'',cell:'',name:'Range'},'Grounds & Equipment':{gh:'gh-grounds',th:' grounds',chip:' grounds',cell:' g',name:'Grounds'},'Raffles & Misc.':{gh:'gh-other',th:' other',chip:' other',cell:' o',name:'Raffles & misc.'}};
+const cat = a => CATS[a.category] || CATS['Range Activity'];
+const typeKey = t => t==='Y'?'Y':t==='L'?'L':'none';
 
-// ── column definitions ──
-const SUMMARY_COLS = ['expand','tag','type','hours'];
-const FULL_COLS = ['expand','tag','type','hours',...ACTIVITIES.map(a=>'act:'+a.col)];
+MEMBERS.forEach((m,i)=>{ m._id=i; m._bad = m.flags.includes('missing_tag')||m.flags.includes('invalid_tag'); });
 
-function activeCols() {
-  return state.view === 'summary' ? SUMMARY_COLS : FULL_COLS;
-}
+/* Masthead stats */
+(function(){
+  const tot = MEMBERS.reduce((s,m)=>s+m.hours,0);
+  const worked = MEMBERS.filter(m=>m.hours>0).length;
+  const capped = MEMBERS.filter(m=>m.hours>=CAP).length;
+  const y = MEMBERS.filter(m=>m.type==='Y').length, l = MEMBERS.filter(m=>m.type==='L').length;
+  const stats = [
+    [MEMBERS.length,'Members'],[y,'Active (Y)'],[l,'Life (L)'],
+    [fmt1(tot),'Hours logged'],[worked,'Members with hours'],[capped,'At 20h max credit'],[ACTS.length,'Work sessions']
+  ];
+  document.getElementById('mastStats').innerHTML = stats.map(([v,k])=>`<div><span class="v">${v}</span><span class="k">${k}</span></div>`).join('');
 
-// ── render header ──
-function renderHead() {
-  const cols = activeCols();
-  const actCols = cols.filter(c=>c.startsWith('act:'));
-  const rangeCols = actCols.filter(c=>{ const col=c.slice(4); return ACT_MAP[col] && ACT_MAP[col].category==='Range Activity';});
-  const groundsCols = actCols.filter(c=>{ const col=c.slice(4); return ACT_MAP[col] && ACT_MAP[col].category==='Grounds & Equipment';});
+})();
 
-  let groupRow = '<tr>';
-  // count non-act cols
-  const fixedCount = cols.filter(c=>!c.startsWith('act:')).length;
-  groupRow += `<th colspan="${fixedCount}" class="gh gh-tag">CORE FIELDS</th>`;
-  if (rangeCols.length) groupRow += `<th colspan="${rangeCols.length}" class="gh gh-range">RANGE ACTIVITIES</th>`;
-  if (groundsCols.length) groupRow += `<th colspan="${groundsCols.length}" class="gh gh-grounds">GROUNDS &amp; EQUIPMENT</th>`;
-  groupRow += '</tr>';
+/* State */
+const state = { q:'', type:'all', hours:'all', full:false, sort:'tag', dir:1, open:new Set() };
 
-  let headRow = '<tr>';
-  cols.forEach(c => {
-    const arrow = (state.sort === colSortKey(c)) ? (state.dir === 1 ? '▲' : '▼') : '';
-    const sorted = state.sort === colSortKey(c) ? 'sorted' : '';
-    if (c === 'expand') { headRow += `<th style="width:36px;"></th>`; return; }
-    if (c === 'tag')    { headRow += `<th class="${sorted}" data-sort="tag" data-arrow="${arrow}">Tag#</th>`; return; }
-    if (c === 'type')   { headRow += `<th class="${sorted}" data-sort="type" data-arrow="${arrow}">Type</th>`; return; }
-
-    if (c === 'hours')  { headRow += `<th class="${sorted}" data-sort="hours" data-arrow="${arrow}">Total Hours</th>`; return; }
-
-    if (c.startsWith('act:')) {
-      const a = ACT_MAP[c.slice(4)];
-      headRow += `<th class="${sorted}" data-sort="${c}" data-arrow="${arrow}" title="${esc(a.label)} — ${a.participants} participants, ${fmt1(a.total)}h total">${esc(a.label)}<br><span style="font-size:9px;opacity:.7;font-family:JetBrains Mono,monospace">${fmtDate(a.date)}</span></th>`;
-      return;
-    }
-  });
-  headRow += '</tr>';
-  document.getElementById('thead').innerHTML = groupRow + headRow;
-
-  // attach sort listeners
-  document.querySelectorAll('#thead th[data-sort]').forEach(th => {
-    th.addEventListener('click', () => {
-      const key = th.dataset.sort;
-      if (state.sort === key) state.dir *= -1; else { state.sort = key; state.dir = 1; }
-      state.page = 1;
-      render();
-    });
-  });
-}
-
-function colSortKey(c) {
-  if (c.startsWith('act:')) return c;
-  return c;
-}
-
-// ── filter + sort ──
-function filtered() {
-  let list = MEMBERS.filter(m => {
-    if (state.type === 'Y' && m.type !== 'Y') return false;
-    if (state.type === 'L' && m.type !== 'L') return false;
-    if (state.type === 'none' && m.type !== null) return false;
-    if (state.hours === 'logged' && !(m.hours > 0)) return false;
-    if (state.hours === 'none' && !(m.hours === 0)) return false;
-    if (state.hours === 'cap' && !(m.hours >= CAP)) return false;
-    if (state.search) {
-      const q = state.search.toLowerCase();
-      const hay = `${m.name} ${m.tag||''} ${m.type||''}`.toLowerCase();
-      if (!hay.includes(q)) return false;
-    }
+function filtered(){
+  const q = state.q.trim().toLowerCase();
+  let rows = MEMBERS.filter(m=>{
+    if (q && !(m.tag||'').toLowerCase().includes(q)) return false;
+    if (state.type!=='all' && typeKey(m.type)!==state.type) return false;
+    const h = m.hours;
+    if (state.hours==='any' && !(h>0)) return false;
+    if (state.hours==='zero' && h>0) return false;
+    if (state.hours==='partial' && !(h>0 && h<CAP)) return false;
+    if (state.hours==='cap' && h<CAP) return false;
     return true;
   });
-  const dir = state.dir;
-  list.sort((a, b) => {
-    const k = state.sort;
-    if (k === 'tag') {
-      // numeric-aware: pure numeric tags sort by number, L-prefix by number after numerics, invalid/missing last
-      const tagRank = t => {
-        if (!t) return [3, 0, ''];            // missing tag → last
-        if (/^\d+$/.test(t)) return [0, parseInt(t,10), t];  // numeric
-        const lm = t.match(/^[Ll](\d+)$/);
-        if (lm) return [1, parseInt(lm[1],10), t];   // L-prefix
-        return [2, 0, t];                     // invalid (??, 0, etc.) → near end
-      };
-      const [ra,na,sa] = tagRank(a.tag), [rb,nb,sb] = tagRank(b.tag);
-      if (ra !== rb) return (ra - rb) * dir;
-      if (na !== nb) return (na - nb) * dir;
-      return sa.localeCompare(sb) * dir;
-    }
-    if (k === 'type')    { const va=a.type||'zzz', vb=b.type||'zzz'; return va.localeCompare(vb)*dir; }
-
-    if (k === 'hours')   { return (a.hours - b.hours) * dir; }
-
-    if (k.startsWith('act:')) {
-      const col = k.slice(4);
-      const va = a.acts[col] ?? -1, vb = b.acts[col] ?? -1;
-      return (va - vb) * dir;
-    }
-    return 0;
+  const d = state.dir, k = state.sort;
+  const typeOrder = {Y:0,L:1,none:2};
+  rows.sort((a,b)=>{
+    let r = 0;
+    if (k==='tag') r = cmpTag(a.tag,b.tag);
+    else if (k==='type') r = typeOrder[typeKey(a.type)]-typeOrder[typeKey(b.type)];
+    else if (k==='hours') r = a.hours-b.hours;
+    else r = (a.acts[k]||0)-(b.acts[k]||0);
+    return r*d || cmpTag(a.tag,b.tag);
   });
-  return list;
+  return rows;
 }
 
-// ── render rows ──
-function renderRows(page) {
-  const cols = activeCols();
-  let html = '';
-  page.forEach(m => {
-    const badge = m.type==='Y' ? '<span class="badge y">Y – ACTIVE</span>'
-                : m.type==='L' ? '<span class="badge l">L – LIFE</span>'
-                : '<span class="badge u">—</span>';
-    const exp = state.expanded.has(m.tag||m.name);
-    const expBtn = `<button class="exp-btn" data-key="${esc(m.tag||m.name)}">${exp?'−':'+'}</button>`;
+function headCell(key,label,cls='',extra=''){
+  const s = state.sort===key;
+  const arr = s ? (state.dir>0?'▲':'▼') : '';
+  return `<th class="${cls}${s?' sorted':''}" data-k="${esc(key)}" aria-sort="${s?(state.dir>0?'ascending':'descending'):'none'}">${label}${extra}<span class="arr">${arr}</span></th>`;
+}
 
-    let cells = '';
-    cols.forEach(c => {
-      if (c === 'expand') { cells += `<td>${expBtn}</td>`; return; }
-      if (c === 'tag') {
-        const tagDisplay = m.tag ? esc(m.tag) : '<span style="color:var(--danger)">missing</span>';
-        cells += `<td class="mono-cell">${tagDisplay}</td>`; return;
-      }
-      if (c === 'type')    { cells += `<td>${badge}</td>`; return; }
-      if (c === 'officer') { cells += `<td class="mono-cell" style="font-size:11.5px;color:var(--ink-soft)">${esc(m.officer)||'—'}</td>`; return; }
-      if (c === 'hours') {
-        if (m.type === 'L') {
-          cells += `<td><div class="mini-gauge exempt"><div class="mini-track"><div class="mini-fill" style="width:100%"></div></div><span class="mini-val" style="color:var(--olive)">exempt</span></div></td>`;
-        } else {
-          const pct = m.creditPct ?? 0;
-          cells += `<td><div class="mini-gauge"><div class="mini-track"><div class="mini-fill" style="width:${(pct*100).toFixed(0)}%"></div></div><span class="mini-val">${fmt1(m.hours)}h</span></div></td>`;
-        }
-        return;
-      }
-
-      if (c.startsWith('act:')) {
-        const col = c.slice(4);
-        const v = m.acts[col];
-        if (v != null && v > 0) {
-          cells += `<td class="act-cell has">${fmt1(v)}</td>`;
-        } else {
-          cells += `<td class="act-cell">—</td>`;
-        }
-        return;
-      }
-    });
-
-    html += `<tr>${cells}</tr>`;
-
-    // expanded detail row
-    if (exp) {
-      const acts = Object.entries(m.acts).filter(([,v])=>v>0);
-      const chips = acts.length
-        ? acts.map(([col,hrs]) => {
-            const a = ACT_MAP[col];
-            const g = a && a.category==='Grounds & Equipment' ? 'grounds' : '';
-            return `<div class="act-chip ${g}"><span class="ch-label">${esc(a?a.label:col)}</span><span class="ch-date">${a?fmtDate(a.date):''}</span><span class="ch-hrs">${fmt1(hrs)}h</span></div>`;
-          }).join('')
-        : '<div class="detail-empty">No activity logged this period.</div>';
-      const span = cols.length;
-      html += `<tr class="detail-row"><td colspan="${span}"><div class="detail-inner">${chips}</div></td></tr>`;
+function renderHead(){
+  let cols = headCell('tag','Tag #') + headCell('type','Membership type') + headCell('hours','Total hours');
+  let groups = '';
+  if (state.full){
+    groups = `<tr class="groups"><th class="gh-tag">Member</th><th class="gh-tag" colspan="2"></th>`;
+    let i=0;
+    while(i<ACTS.length){
+      const c = ACTS[i].category; let n=0;
+      while(i+n<ACTS.length && ACTS[i+n].category===c) n++;
+      groups += `<th class="${cat(ACTS[i]).gh}" colspan="${n}">${cat(ACTS[i]).name}</th>`;
+      i+=n;
     }
-  });
+    groups += `</tr>`;
+    ACTS.forEach(a=>{
+      cols += headCell(a.col, `<span class="d">${fmtDate(a.date)}</span>${esc(a.label)}`, 'act num'+cat(a).th);
+    });
+  }
+  document.getElementById('thead').innerHTML = groups + `<tr class="cols">${cols}</tr>`;
+  const gh = document.querySelector('thead tr.groups');
+  document.getElementById('tbl').style.setProperty('--gh', gh ? gh.getBoundingClientRect().height+'px' : '0px');
+}
+
+function typeBadge(t){
+  if (t==='Y') return '<span class="badge y">Y – Active</span>';
+  if (t==='L') return '<span class="badge l">L – Life</span>';
+  if (t) return `<span class="badge x">${esc(t)}</span>`;
+  return '<span class="badge u">—</span>';
+}
+function gauge(m){
+  const pct = Math.min(m.hours/CAP,1)*100;
+  const cls = m.type==='L' ? 'exempt' : (m.hours>=CAP ? 'capped' : '');
+  return `<div class="mini-gauge ${cls}"><div class="mini-track"><div class="mini-fill" style="width:${pct}%"></div></div><span class="mini-val${m.hours?'':' zero'}">${fmt1(m.hours)}h</span></div>`;
+}
+
+function renderBody(rows){
+  const ncols = 3 + (state.full?ACTS.length:0);
+  if (!rows.length){
+    document.getElementById('tbody').innerHTML = `<tr><td colspan="${ncols}" class="empty">No members match these filters.</td></tr>`;
+    document.getElementById('tfoot').innerHTML='';
+    return;
+  }
+  let html = '';
+  for (const m of rows){
+    const open = state.open.has(m._id);
+    let warn = '';
+    if (m.flags.includes('missing_tag')) warn = '<span class="warn">NO TAG</span>';
+    else if (m.flags.includes('invalid_tag')) warn = '<span class="warn">CHECK</span>';
+    html += `<tr class="row${open?' open':''}" data-id="${m._id}" tabindex="0" aria-expanded="${open}">`
+      + `<td class="tag${m._bad?' bad':''}"><span class="chev">▶</span> ${m.tag?esc(m.tag):'—'}${warn}</td>`
+      + `<td>${typeBadge(m.type)}</td><td>${gauge(m)}</td>`;
+    if (state.full){
+      for (const a of ACTS){
+        const v = m.acts[a.col];
+        html += v>0 ? `<td class="act-cell has${cat(a).cell}">${fmt1(v)}</td>` : `<td class="act-cell">—</td>`;
+      }
+    }
+    html += `</tr>`;
+    if (open){
+      const done = ACTS.filter(a=>m.acts[a.col]>0);
+      const chips = done.length
+        ? `<div class="chips">${done.map(a=>`<div class="act-chip${cat(a).chip}"><span class="ch-label">${esc(a.label)}</span><span class="ch-date">${fmtDate(a.date)}</span><span class="ch-hrs">${fmt1(m.acts[a.col])}h</span></div>`).join('')}</div>`
+        : `<div class="detail-none">No work sessions logged yet this year.</div>`;
+      const left = m.type==='L' ? 'Life member, exempt from work credits.' :
+        (m.hours>=CAP ? 'Maximum credit reached.' : `${fmt1(CAP-m.hours)} more hour${CAP-m.hours===1?'':'s'} to reach the $500 maximum credit.`);
+      html += `<tr class="detail"><td colspan="${ncols}"><div class="detail-inner"><div class="detail-head">${done.length} session${done.length===1?'':'s'} · ${esc(left)}</div>${chips}</div></td></tr>`;
+    }
+  }
   document.getElementById('tbody').innerHTML = html;
 
-  // expand listeners
-  document.querySelectorAll('.exp-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const key = btn.dataset.key;
-      state.expanded.has(key) ? state.expanded.delete(key) : state.expanded.add(key);
-      render();
-    });
-  });
+  const tot = rows.reduce((s,m)=>s+m.hours,0);
+  let f = `<tr><td>Totals · ${rows.length}</td><td></td><td class="num">${fmt1(tot)}h</td>`;
+  if (state.full) for (const a of ACTS){ const t = rows.reduce((s,m)=>s+(m.acts[a.col]||0),0); f += `<td class="act-cell${t?' has':''}">${t?fmt1(t):'—'}</td>`; }
+  document.getElementById('tfoot').innerHTML = f + '</tr>';
 }
 
-// ── pager ──
-function renderPager(total) {
-  const pages = Math.max(1, Math.ceil(total / state.pageSize));
-  if (state.page > pages) state.page = pages;
-  const el = document.getElementById('pager');
-  el.innerHTML = `
-    <span>Showing ${Math.min((state.page-1)*state.pageSize+1,total)}–${Math.min(state.page*state.pageSize,total)} of ${total} members</span>
-    <div class="pager-btns">
-      <button ${state.page<=1?'disabled':''} data-a="first">«</button>
-      <button ${state.page<=1?'disabled':''} data-a="prev">‹</button>
-      <span style="padding:0 6px;font-size:12px">Page ${state.page} / ${pages}</span>
-      <button ${state.page>=pages?'disabled':''} data-a="next">›</button>
-      <button ${state.page>=pages?'disabled':''} data-a="last">»</button>
-    </div>`;
-  el.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
-    if (b.dataset.a==='first') state.page=1;
-    if (b.dataset.a==='prev') state.page=Math.max(1,state.page-1);
-    if (b.dataset.a==='next') state.page=Math.min(pages,state.page+1);
-    if (b.dataset.a==='last') state.page=pages;
-    render();
-  }));
+function render(){
+  const rows = filtered();
+  renderHead(); renderBody(rows);
+  document.getElementById('count').innerHTML = `<b>${rows.length}</b> of ${MEMBERS.length} members`;
+  document.getElementById('legend').hidden = !state.full;
+  document.getElementById('card').classList.toggle('summary',!state.full);
 }
 
-// ── main render ──
-function render() {
-  const list = filtered();
-  document.getElementById('countBadge').textContent = `${list.length} of ${MEMBERS.length} members`;
-  const start = (state.page-1)*state.pageSize;
-  renderHead();
-  renderRows(list.slice(start, start+state.pageSize));
-  renderPager(list.length);
-}
-
-// ── controls ──
-document.getElementById('search').addEventListener('input', e => { state.search=e.target.value; state.page=1; render(); });
-document.getElementById('typeFilter').addEventListener('change', e => { state.type=e.target.value; state.page=1; render(); });
-document.getElementById('hoursFilter').addEventListener('change', e => { state.hours=e.target.value; state.page=1; render(); });
-document.getElementById('btnSummary').addEventListener('click', () => {
-  state.view='summary'; state.sort='tag'; state.dir=1; state.page=1;
-  document.getElementById('btnSummary').classList.add('on');
-  document.getElementById('btnFull').classList.remove('on');
+/* Events */
+document.getElementById('q').addEventListener('input',e=>{state.q=e.target.value;render();});
+document.getElementById('fType').addEventListener('change',e=>{state.type=e.target.value;render();});
+document.getElementById('fHours').addEventListener('change',e=>{state.hours=e.target.value;render();});
+const setView = full => { state.full=full; document.getElementById('btnFull').classList.toggle('on',full); document.getElementById('btnSummary').classList.toggle('on',!full); if(!full && !['tag','type','hours'].includes(state.sort)){state.sort='tag';state.dir=1;} render(); };
+document.getElementById('btnSummary').addEventListener('click',()=>setView(false));
+document.getElementById('btnFull').addEventListener('click',()=>setView(true));
+document.getElementById('thead').addEventListener('click',e=>{
+  const th = e.target.closest('th[data-k]'); if(!th) return;
+  const k = th.dataset.k;
+  if (state.sort===k) state.dir*=-1; else { state.sort=k; state.dir = (k==='tag'||k==='type')?1:-1; }
   render();
 });
-document.getElementById('btnFull').addEventListener('click', () => {
-  state.view='full'; state.page=1;
-  document.getElementById('btnFull').classList.add('on');
-  document.getElementById('btnSummary').classList.remove('on');
-  render();
-});
-
-// init
+const toggleRow = tr => { const id=+tr.dataset.id; state.open.has(id)?state.open.delete(id):state.open.add(id); render(); const again=document.querySelector(`tr.row[data-id="${id}"]`); if(again) again.focus({preventScroll:true}); };
+document.getElementById('tbody').addEventListener('click',e=>{ const tr=e.target.closest('tr.row'); if(tr) toggleRow(tr); });
+document.getElementById('tbody').addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&e.target.matches('tr.row')){e.preventDefault();toggleRow(e.target);} });
+window.addEventListener('resize',()=>renderHead());
 render();
 </script>
 </body>
